@@ -2,6 +2,7 @@
 name = "mono-rs"
 description = "Lightweight wrapper aroud mono. !!WIP!! "
 authors = ["Bartosz 'b4rti' Gorol"]
+license = "MIT"
 version = "0.1.0"
 edition = "2018"
 links = "mono-2.0"
