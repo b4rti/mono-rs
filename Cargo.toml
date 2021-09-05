@@ -1,6 +1,6 @@
 [package]
 name = "mono-rs"
-description = "Lightweight wrapper aroud mono. !!WIP!! "
+description = "Lightweight wrapper around mono. !!WIP!! "
 authors = ["Bartosz 'b4rti' Gorol"]
 repository = "https://github.com/b4rti/mono-rs"
 license = "MIT"
