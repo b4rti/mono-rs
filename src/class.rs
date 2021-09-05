@@ -52,7 +52,7 @@ impl Class {
 }
 
 impl MonoVoidPtr for Class {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         self.mono_class as *mut c_void
     }
 }

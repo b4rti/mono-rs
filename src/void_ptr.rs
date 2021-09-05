@@ -6,7 +6,7 @@ use std::{
 use crate::bindings::{mono_object_unbox, MonoObject};
 
 pub trait MonoVoidPtr {
-    fn to_mono_ptr(self) -> *mut c_void;
+    fn as_void_ptr(self) -> *mut c_void;
 }
 
 pub trait MonoUnbox {
@@ -34,7 +34,7 @@ impl<T> MonoVoidPtr for T
 where
     T: MonoAutoMarker,
 {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         Box::into_raw(Box::new(self)) as *mut _ as *mut c_void
     }
 }
@@ -50,7 +50,7 @@ where
 }
 
 impl MonoVoidPtr for &str {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         let cstr = Box::new(CString::new(self).unwrap());
         let mut cstr_ptr = cstr.as_ptr();
         Box::into_raw(cstr);
@@ -59,7 +59,7 @@ impl MonoVoidPtr for &str {
 }
 
 impl MonoVoidPtr for String {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         let cstr = Box::new(CString::new(self.as_str()).unwrap());
         let mut cstr_ptr = cstr.as_ptr();
         Box::into_raw(cstr);
@@ -71,9 +71,9 @@ impl<T> MonoVoidPtr for Option<T>
 where
     T: MonoVoidPtr,
 {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         match self {
-            Some(t) => t.to_mono_ptr(),
+            Some(t) => t.as_void_ptr(),
             None => null_mut() as *mut c_void,
         }
     }

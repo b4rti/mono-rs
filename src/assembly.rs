@@ -22,7 +22,7 @@ impl Assembly {
 }
 
 impl MonoVoidPtr for Assembly {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         self.mono_assembly as *mut c_void
     }
 }

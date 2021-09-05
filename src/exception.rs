@@ -7,7 +7,7 @@ struct Exception {
 }
 
 impl MonoVoidPtr for Exception {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         self.mono_exception as *mut c_void
     }
 }

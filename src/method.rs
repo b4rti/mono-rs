@@ -47,30 +47,30 @@ impl Arguments {
     where
         T: MonoVoidPtr,
     {
-        self.args.push(arg.to_mono_ptr());
+        self.args.push(arg.as_void_ptr());
     }
 }
 
 impl MonoVoidPtr for ClassMethod {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         self.mono_method as *mut c_void
     }
 }
 
 impl MonoVoidPtr for ObjectMethod {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         self.mono_method as *mut c_void
     }
 }
 
 impl MonoVoidPtr for StaticMethod {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         self.mono_method as *mut c_void
     }
 }
 
 impl MonoVoidPtr for Arguments {
-    fn to_mono_ptr(mut self) -> *mut c_void {
+    fn as_void_ptr(mut self) -> *mut c_void {
         self.args.as_mut_ptr() as *mut c_void
     }
 }

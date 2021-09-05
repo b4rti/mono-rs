@@ -6,8 +6,8 @@ use std::{
 use crate::{
     bindings::{
         mono_class_get_field_from_name, mono_class_get_name, mono_method_desc_new,
-        mono_method_desc_search_in_class, mono_runtime_invoke, MonoAssembly, MonoClass,
-        MonoClassField, MonoDomain, MonoImage, MonoObject,
+        mono_method_desc_search_in_class, mono_runtime_invoke, MonoAssembly, MonoClass, MonoDomain,
+        MonoImage, MonoObject,
     },
     field::ObjectField,
     method::{Arguments, ObjectMethod},
@@ -28,7 +28,7 @@ impl Object {
             mono_runtime_invoke(
                 self.get_method_by_name(".ctor").mono_method,
                 self.mono_object as *mut c_void,
-                args.to_mono_ptr() as *mut *mut c_void,
+                args.as_void_ptr() as *mut *mut c_void,
                 null_mut(),
             )
         };
@@ -80,7 +80,7 @@ impl Object {
 }
 
 impl MonoVoidPtr for Object {
-    fn to_mono_ptr(self) -> *mut c_void {
+    fn as_void_ptr(self) -> *mut c_void {
         self.mono_object as *mut c_void
     }
 }
