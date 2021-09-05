@@ -1,6 +1,6 @@
 [package]
 name = "mono-rs"
-description = "Lightweight wrapper aroud mono."
+description = "Lightweight wrapper aroud mono. !!WIP!! "
 authors = ["Bartosz 'b4rti' Gorol"]
 version = "0.1.0"
 edition = "2018"
