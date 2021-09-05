@@ -7,7 +7,7 @@ pub struct StringObject {
 }
 
 impl MonoVoidPtr for StringObject {
-    fn mono_void_ptr(self) -> *mut c_void {
+    fn to_mono_ptr(self) -> *mut c_void {
         self.mono_string as *mut c_void
     }
 }

@@ -41,13 +41,15 @@ mod tests {
         object.construct(None);
 
         println!("Getting Field");
-        let class_field_name = CString::new("TestField").unwrap();
-        let class_field =
-            unsafe { mono_class_get_field_from_name(class.mono_class, class_field_name.as_ptr()) };
+        let class_field = object.get_field_by_name("TestField");
 
         println!("Getting Field Value");
         let value_object = unsafe {
-            mono_field_get_value_object(domain.mono_domain, class_field, object.mono_object)
+            mono_field_get_value_object(
+                domain.mono_domain,
+                class_field.mono_field,
+                object.mono_object,
+            )
         };
         let value_string_object = value_object as *mut MonoString;
         let value_string = unsafe { mono_string_to_utf8(value_string_object) };

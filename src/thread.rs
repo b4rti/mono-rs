@@ -7,7 +7,7 @@ struct Thread {
 }
 
 impl MonoVoidPtr for Thread {
-    fn mono_void_ptr(self) -> *mut c_void {
+    fn to_mono_ptr(self) -> *mut c_void {
         self.mono_thread as *mut c_void
     }
 }

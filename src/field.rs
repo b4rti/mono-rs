@@ -31,19 +31,19 @@ pub struct StaticField {
 }
 
 impl MonoVoidPtr for ClassField {
-    fn mono_void_ptr(self) -> *mut c_void {
+    fn to_mono_ptr(self) -> *mut c_void {
         self.mono_field as *mut c_void
     }
 }
 
 impl MonoVoidPtr for ObjectField {
-    fn mono_void_ptr(self) -> *mut c_void {
+    fn to_mono_ptr(self) -> *mut c_void {
         self.mono_field as *mut c_void
     }
 }
 
 impl MonoVoidPtr for StaticField {
-    fn mono_void_ptr(self) -> *mut c_void {
+    fn to_mono_ptr(self) -> *mut c_void {
         self.mono_field as *mut c_void
     }
 }

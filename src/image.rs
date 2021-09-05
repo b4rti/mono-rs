@@ -33,7 +33,7 @@ impl Image {
 }
 
 impl MonoVoidPtr for Image {
-    fn mono_void_ptr(self) -> *mut c_void {
+    fn to_mono_ptr(self) -> *mut c_void {
         self.mono_image as *mut c_void
     }
 }

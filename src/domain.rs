@@ -40,7 +40,7 @@ impl Domain {
 }
 
 impl MonoVoidPtr for Domain {
-    fn mono_void_ptr(self) -> *mut c_void {
+    fn to_mono_ptr(self) -> *mut c_void {
         self.mono_domain as *mut c_void
     }
 }
