@@ -1,0 +1,12 @@
+[package]
+name = "mono-rs"
+description = "Lightweight wrapper around mono. !!WIP!! "
+authors = ["Bartosz 'b4rti' Gorol"]
+repository = "https://github.com/b4rti/mono-rs"
+license = "MIT"
+version = "0.1.8"
+edition = "2018"
+links = "mono-2.0"
+
+[dependencies]
+# libc = "0.2"
