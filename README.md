@@ -1,6 +1,6 @@
 # mono-rs
 
-## Lightweight wrapper aroud mono. !!WIP!! 
+## Lightweight wrapper around mono. !!WIP!! 
 
 ### Example
 
