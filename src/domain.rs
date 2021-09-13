@@ -1,4 +1,4 @@
-use std::ffi::{c_void, CString};
+use std::{ffi::{c_void, CString}, path::Path};
 
 use crate::{
     assembly::Assembly,
@@ -32,12 +32,22 @@ impl Domain {
     }
 
     pub fn open_assembly<T: AsRef<str>>(&self, path: T) -> MonoResult<Assembly> {
+        if !Path::new(path.as_ref()).exists() {
+            return Err(format!("File '{}' not found!", path.as_ref()).into());
+        }
+
         let assembly_path = CString::new(path.as_ref())?;
+        let mono_assembly = unsafe {
+                mono_domain_assembly_open(self.mono_domain, assembly_path.as_ptr())
+        };
+
+        if mono_assembly.is_null() {
+            return Err("MonoAssembly Null Error!".into());
+        }
+
         Ok(Assembly {
             mono_domain: self.mono_domain,
-            mono_assembly: unsafe {
-                mono_domain_assembly_open(self.mono_domain, assembly_path.as_ptr())
-            },
+            mono_assembly,
         })
     }
 }
