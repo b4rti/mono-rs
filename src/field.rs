@@ -2,7 +2,7 @@ use std::ffi::c_void;
 
 use crate::{
     bindings::{MonoAssembly, MonoClass, MonoClassField, MonoDomain, MonoImage, MonoObject},
-    void_ptr::MonoVoidPtr,
+    AsRawVoid,
 };
 
 pub struct ClassField {
@@ -30,20 +30,20 @@ pub struct StaticField {
     pub mono_field: *mut MonoClassField,
 }
 
-impl MonoVoidPtr for ClassField {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for ClassField {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_field as *mut c_void
     }
 }
 
-impl MonoVoidPtr for ObjectField {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for ObjectField {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_field as *mut c_void
     }
 }
 
-impl MonoVoidPtr for StaticField {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for StaticField {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_field as *mut c_void
     }
 }

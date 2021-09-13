@@ -1,13 +1,13 @@
 use std::ffi::c_void;
 
-use crate::{bindings::MonoException, void_ptr::MonoVoidPtr};
+use crate::{bindings::MonoException, AsRawVoid};
 
 struct Exception {
     pub mono_exception: *mut MonoException,
 }
 
-impl MonoVoidPtr for Exception {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for Exception {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_exception as *mut c_void
     }
 }

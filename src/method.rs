@@ -2,7 +2,7 @@ use std::ffi::c_void;
 
 use crate::{
     bindings::{MonoAssembly, MonoClass, MonoDomain, MonoImage, MonoMethod, MonoObject},
-    void_ptr::MonoVoidPtr,
+    AsRawVoid,
 };
 
 pub struct ClassMethod {
@@ -45,32 +45,32 @@ impl Arguments {
 
     pub fn add<T>(&mut self, arg: T)
     where
-        T: MonoVoidPtr,
+        T: AsRawVoid,
     {
-        self.args.push(arg.as_void_ptr());
+        self.args.push(arg.as_raw_void());
     }
 }
 
-impl MonoVoidPtr for ClassMethod {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for ClassMethod {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_method as *mut c_void
     }
 }
 
-impl MonoVoidPtr for ObjectMethod {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for ObjectMethod {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_method as *mut c_void
     }
 }
 
-impl MonoVoidPtr for StaticMethod {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for StaticMethod {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_method as *mut c_void
     }
 }
 
-impl MonoVoidPtr for Arguments {
-    fn as_void_ptr(mut self) -> *mut c_void {
+impl AsRawVoid for Arguments {
+    fn as_raw_void(mut self) -> *mut c_void {
         self.args.as_mut_ptr() as *mut c_void
     }
 }

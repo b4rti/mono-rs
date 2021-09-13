@@ -11,7 +11,7 @@ use crate::{
     },
     field::ObjectField,
     method::{Arguments, ObjectMethod},
-    void_ptr::{MonoUnbox, MonoVoidPtr},
+    AsRawVoid, MonoResult, Unbox,
 };
 
 pub struct Object {
@@ -23,15 +23,16 @@ pub struct Object {
 }
 
 impl Object {
-    pub fn construct(&self, args: Option<Arguments>) {
+    pub fn construct(&self, args: Option<Arguments>) -> MonoResult<()> {
         unsafe {
             mono_runtime_invoke(
                 self.get_method_by_name(".ctor").mono_method,
                 self.mono_object as *mut c_void,
-                args.as_void_ptr() as *mut *mut c_void,
+                args.as_raw_void() as *mut *mut c_void,
                 null_mut(),
             )
         };
+        Ok(())
     }
 
     pub fn get_class_name(&self) -> String {
@@ -59,28 +60,33 @@ impl Object {
 
     pub fn unbox<T>(self) -> T
     where
-        T: MonoUnbox,
+        T: Unbox,
     {
         T::unbox(self.mono_object)
     }
 
-    pub fn get_field_by_name(&self, name: &'static str) -> ObjectField {
+    pub fn get_field_by_name(&self, name: &'static str) -> MonoResult<ObjectField> {
         let field_name = CString::new(name).unwrap();
-        let field = unsafe { mono_class_get_field_from_name(self.mono_class, field_name.as_ptr()) };
+        let mono_field =
+            unsafe { mono_class_get_field_from_name(self.mono_class, field_name.as_ptr()) };
 
-        ObjectField {
+        if mono_field.is_null() {
+            return Err("MonoField Null Error!".into());
+        }
+
+        Ok(ObjectField {
             mono_assembly: self.mono_assembly,
             mono_class: self.mono_class,
             mono_domain: self.mono_domain,
             mono_image: self.mono_image,
-            mono_field: field,
+            mono_field,
             mono_object: self.mono_object,
-        }
+        })
     }
 }
 
-impl MonoVoidPtr for Object {
-    fn as_void_ptr(self) -> *mut c_void {
+impl AsRawVoid for Object {
+    fn as_raw_void(self) -> *mut c_void {
         self.mono_object as *mut c_void
     }
 }
