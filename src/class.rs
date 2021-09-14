@@ -1,42 +1,50 @@
-use std::ffi::{c_void, CStr, CString};
-
-use crate::{
-    bindings::{
-        mono_class_get_name, mono_method_desc_new, mono_method_desc_search_in_class,
-        mono_object_new, MonoAssembly, MonoClass, MonoDomain, MonoImage,
-    },
-    method::ClassMethod,
-    object::Object,
-    AsRawVoid, MonoResult,
+use std::{
+    ffi::{c_void, CStr, CString},
+    sync::Arc,
 };
 
+use crate::{
+    assembly::Assembly,
+    bindings::{
+        mono_class_get_name, mono_method_desc_new, mono_method_desc_search_in_class,
+        mono_object_new, MonoClass,
+    },
+    domain::Domain,
+    image::Image,
+    method::ClassMethod,
+    object::Object,
+    void::AsRawVoid,
+    MonoResult,
+};
+
+#[derive(Clone, Debug)]
 pub struct Class {
-    pub mono_assembly: *mut MonoAssembly,
-    pub mono_class: *mut MonoClass,
-    pub mono_domain: *mut MonoDomain,
-    pub mono_image: *mut MonoImage,
+    pub mono_ptr: *mut MonoClass,
+    pub assembly: Arc<Assembly>,
+    pub domain: Arc<Domain>,
+    pub image: Arc<Image>,
 }
 
 impl Class {
     pub fn create_object(&self) -> MonoResult<Object> {
-        let mono_object = unsafe { mono_object_new(self.mono_domain, self.mono_class) };
+        let mono_ptr = unsafe { mono_object_new(self.domain.mono_ptr, self.mono_ptr) };
 
-        if mono_object.is_null() {
+        if mono_ptr.is_null() {
             return Err("MonoObject Null Error!".into());
         }
 
         Ok(Object {
-            mono_assembly: self.mono_assembly,
-            mono_class: self.mono_class,
-            mono_domain: self.mono_domain,
-            mono_image: self.mono_image,
-            mono_object,
+            mono_ptr,
+            assembly: self.assembly.clone(),
+            class: Arc::new(self.clone()),
+            domain: self.domain.clone(),
+            image: self.image.clone(),
         })
     }
 
     pub fn get_name(&self) -> String {
         unsafe {
-            CStr::from_ptr(mono_class_get_name(self.mono_class))
+            CStr::from_ptr(mono_class_get_name(self.mono_ptr))
                 .to_string_lossy()
                 .to_string()
         }
@@ -51,25 +59,25 @@ impl Class {
             return Err("MonoMethodDecs Null Error!".into());
         }
 
-        let mono_method =
-            unsafe { mono_method_desc_search_in_class(mono_method_desc, self.mono_class) };
+        let mono_ptr =
+            unsafe { mono_method_desc_search_in_class(mono_method_desc, self.mono_ptr) };
 
-        if mono_method.is_null() {
+        if mono_ptr.is_null() {
             return Err("MonoMethod Null Error!".into());
         }
 
         Ok(ClassMethod {
-            mono_assembly: self.mono_assembly,
-            mono_class: self.mono_class,
-            mono_domain: self.mono_domain,
-            mono_image: self.mono_image,
-            mono_method,
+            mono_ptr,
+            assembly: self.assembly.clone(),
+            class: Arc::new(self.clone()),
+            domain: self.domain.clone(),
+            image: self.image.clone(),
         })
     }
 }
 
 impl AsRawVoid for Class {
     fn as_raw_void(self) -> *mut c_void {
-        self.mono_class as *mut c_void
+        self.mono_ptr as *mut c_void
     }
 }

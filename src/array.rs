@@ -1,7 +1,8 @@
 use std::ffi::c_void;
 
-use crate::{bindings::MonoArray, AsRawVoid};
+use crate::{bindings::MonoArray, void::AsRawVoid};
 
+#[derive(Clone, Debug)]
 pub struct ArrayObject {
     pub mono_array_object: *mut MonoArray,
 }

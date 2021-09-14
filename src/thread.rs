@@ -1,7 +1,8 @@
 use std::ffi::c_void;
 
-use crate::{bindings::MonoThread, AsRawVoid};
+use crate::{bindings::MonoThread, void::AsRawVoid};
 
+#[derive(Clone, Debug)]
 struct Thread {
     pub mono_thread: *mut MonoThread,
 }

@@ -1,7 +1,8 @@
 use std::ffi::c_void;
 
-use crate::{bindings::MonoException, AsRawVoid};
+use crate::{bindings::MonoException, void::AsRawVoid};
 
+#[derive(Clone, Debug)]
 struct Exception {
     pub mono_exception: *mut MonoException,
 }

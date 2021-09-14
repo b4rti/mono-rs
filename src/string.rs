@@ -1,7 +1,8 @@
 use std::ffi::c_void;
 
-use crate::{bindings::MonoString, AsRawVoid};
+use crate::{bindings::MonoString, void::AsRawVoid};
 
+#[derive(Clone, Debug)]
 pub struct StringObject {
     pub mono_string: *mut MonoString,
 }

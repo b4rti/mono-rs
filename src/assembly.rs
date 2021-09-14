@@ -1,34 +1,37 @@
-use std::ffi::c_void;
+use std::{ffi::c_void, sync::Arc};
 
 use crate::{
-    bindings::{mono_assembly_get_image, MonoAssembly, MonoDomain},
+    bindings::{mono_assembly_get_image, MonoAssembly},
+    domain::Domain,
     image::Image,
-    AsRawVoid, MonoResult,
+    void::AsRawVoid,
+    MonoResult,
 };
 
+#[derive(Clone, Debug)]
 pub struct Assembly {
-    pub mono_assembly: *mut MonoAssembly,
-    pub mono_domain: *mut MonoDomain,
+    pub mono_ptr: *mut MonoAssembly,
+    pub domain: Arc<Domain>,
 }
 
 impl Assembly {
     pub fn get_image(&self) -> MonoResult<Image> {
-        let mono_image = unsafe { mono_assembly_get_image(self.mono_assembly) };
+        let mono_ptr = unsafe { mono_assembly_get_image(self.mono_ptr) };
 
-        if mono_image.is_null() {
+        if mono_ptr.is_null() {
             return Err("MonoImage Null Error!".into());
         }
 
         Ok(Image {
-            mono_assembly: self.mono_assembly,
-            mono_domain: self.mono_domain,
-            mono_image,
+            mono_ptr,
+            assembly: Arc::new(self.clone()),
+            domain: self.domain.clone(),
         })
     }
 }
 
 impl AsRawVoid for Assembly {
     fn as_raw_void(self) -> *mut c_void {
-        self.mono_assembly as *mut c_void
+        self.mono_ptr as *mut c_void
     }
 }
