@@ -72,13 +72,13 @@ fn main() -> MonoResult<()> {
 	println!("Getting MethodDesc");
 	let method_name = CString::new("TestClass:getTestField()").unwrap();
 	let method_decs = unsafe { mono_method_desc_new(method_name.as_ptr(), 0) };
-	let method = unsafe { mono_method_desc_search_in_class(method_decs, class.mono_class) };
+	let method = unsafe { mono_method_desc_search_in_class(method_decs, class.mono_ptr) };
 	
 	println!("Calling Method");
 	let result_object = unsafe {
 	    mono_runtime_invoke(
 	        method,
-	        object.mono_object as *mut c_void,
+	        object.mono_ptr as *mut c_void,
 	        null_mut(),
 	        null_mut(),
 	    )
