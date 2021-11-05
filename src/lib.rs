@@ -14,7 +14,7 @@ pub mod value;
 pub mod void;
 
 use std::error::Error;
-type MonoResult<T> = Result<T, Box<dyn Error>>;
+pub type MonoResult<T> = Result<T, Box<dyn Error>>;
 
 #[cfg(test)]
 mod tests {
