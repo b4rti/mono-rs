@@ -90,7 +90,6 @@ fn main() -> MonoResult<()> {
 	println!("Result: {}", &*result_string.to_string_lossy());
 	
 	Ok(())
-	}
 }
 
 ```
