@@ -133,6 +133,10 @@ pub const __USE_POSIX199506: u32 = 1;
 pub const __USE_XOPEN2K: u32 = 1;
 pub const __USE_XOPEN2K8: u32 = 1;
 pub const _ATFILE_SOURCE: u32 = 1;
+pub const __WORDSIZE: u32 = 64;
+pub const __WORDSIZE_TIME64_COMPAT32: u32 = 1;
+pub const __SYSCALL_WORDSIZE: u32 = 64;
+pub const __TIMESIZE: u32 = 64;
 pub const __USE_MISC: u32 = 1;
 pub const __USE_ATFILE: u32 = 1;
 pub const __USE_FORTIFY_LEVEL: u32 = 0;
@@ -140,26 +144,25 @@ pub const __GLIBC_USE_DEPRECATED_GETS: u32 = 0;
 pub const __GLIBC_USE_DEPRECATED_SCANF: u32 = 0;
 pub const _STDC_PREDEF_H: u32 = 1;
 pub const __STDC_IEC_559__: u32 = 1;
+pub const __STDC_IEC_60559_BFP__: u32 = 201404;
 pub const __STDC_IEC_559_COMPLEX__: u32 = 1;
+pub const __STDC_IEC_60559_COMPLEX__: u32 = 201404;
 pub const __STDC_ISO_10646__: u32 = 201706;
 pub const __GNU_LIBRARY__: u32 = 6;
 pub const __GLIBC__: u32 = 2;
-pub const __GLIBC_MINOR__: u32 = 33;
+pub const __GLIBC_MINOR__: u32 = 36;
 pub const _SYS_CDEFS_H: u32 = 1;
 pub const __glibc_c99_flexarr_available: u32 = 1;
-pub const __WORDSIZE: u32 = 64;
-pub const __WORDSIZE_TIME64_COMPAT32: u32 = 1;
-pub const __SYSCALL_WORDSIZE: u32 = 64;
 pub const __LDOUBLE_REDIRECTS_TO_FLOAT128_ABI: u32 = 0;
 pub const __HAVE_GENERIC_SELECTION: u32 = 1;
 pub const __GLIBC_USE_LIB_EXT2: u32 = 0;
 pub const __GLIBC_USE_IEC_60559_BFP_EXT: u32 = 0;
 pub const __GLIBC_USE_IEC_60559_BFP_EXT_C2X: u32 = 0;
+pub const __GLIBC_USE_IEC_60559_EXT: u32 = 0;
 pub const __GLIBC_USE_IEC_60559_FUNCS_EXT: u32 = 0;
 pub const __GLIBC_USE_IEC_60559_FUNCS_EXT_C2X: u32 = 0;
 pub const __GLIBC_USE_IEC_60559_TYPES_EXT: u32 = 0;
 pub const _BITS_TYPES_H: u32 = 1;
-pub const __TIMESIZE: u32 = 64;
 pub const _BITS_TYPESIZES_H: u32 = 1;
 pub const __OFF_T_MATCHES_OFF64_T: u32 = 1;
 pub const __INO_T_MATCHES_INO64_T: u32 = 1;
@@ -303,7 +306,7 @@ pub const EOF: i32 = -1;
 pub const SEEK_SET: u32 = 0;
 pub const SEEK_CUR: u32 = 1;
 pub const SEEK_END: u32 = 2;
-pub const P_tmpdir: &'static [u8; 5usize] = b"/tmp\0";
+pub const P_tmpdir: &[u8; 5usize] = b"/tmp\0";
 pub const _BITS_STDIO_LIM_H: u32 = 1;
 pub const L_tmpnam: u32 = 20;
 pub const TMP_MAX: u32 = 238328;
@@ -364,16 +367,23 @@ fn bindgen_test_layout___fsid_t() {
         4usize,
         concat!("Alignment of ", stringify!(__fsid_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__fsid_t>())).__val as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__fsid_t),
-            "::",
-            stringify!(__val)
-        )
-    );
+    fn test_field___val() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__fsid_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__val) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__fsid_t),
+                "::",
+                stringify!(__val)
+            )
+        );
+    }
+    test_field___val();
 }
 pub type __clock_t = ::std::os::raw::c_long;
 pub type __rlim_t = ::std::os::raw::c_ulong;
@@ -445,26 +455,40 @@ fn bindgen_test_layout_div_t() {
         4usize,
         concat!("Alignment of ", stringify!(div_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<div_t>())).quot as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(div_t),
-            "::",
-            stringify!(quot)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<div_t>())).rem as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(div_t),
-            "::",
-            stringify!(rem)
-        )
-    );
+    fn test_field_quot() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<div_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).quot) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(div_t),
+                "::",
+                stringify!(quot)
+            )
+        );
+    }
+    test_field_quot();
+    fn test_field_rem() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<div_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rem) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(div_t),
+                "::",
+                stringify!(rem)
+            )
+        );
+    }
+    test_field_rem();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -484,26 +508,40 @@ fn bindgen_test_layout_ldiv_t() {
         8usize,
         concat!("Alignment of ", stringify!(ldiv_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<ldiv_t>())).quot as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(ldiv_t),
-            "::",
-            stringify!(quot)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<ldiv_t>())).rem as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(ldiv_t),
-            "::",
-            stringify!(rem)
-        )
-    );
+    fn test_field_quot() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<ldiv_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).quot) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(ldiv_t),
+                "::",
+                stringify!(quot)
+            )
+        );
+    }
+    test_field_quot();
+    fn test_field_rem() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<ldiv_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rem) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(ldiv_t),
+                "::",
+                stringify!(rem)
+            )
+        );
+    }
+    test_field_rem();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -523,26 +561,40 @@ fn bindgen_test_layout_lldiv_t() {
         8usize,
         concat!("Alignment of ", stringify!(lldiv_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<lldiv_t>())).quot as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(lldiv_t),
-            "::",
-            stringify!(quot)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<lldiv_t>())).rem as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(lldiv_t),
-            "::",
-            stringify!(rem)
-        )
-    );
+    fn test_field_quot() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<lldiv_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).quot) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(lldiv_t),
+                "::",
+                stringify!(quot)
+            )
+        );
+    }
+    test_field_quot();
+    fn test_field_rem() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<lldiv_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rem) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(lldiv_t),
+                "::",
+                stringify!(rem)
+            )
+        );
+    }
+    test_field_rem();
 }
 extern "C" {
     pub fn __ctype_get_mb_cur_max() -> size_t;
@@ -675,16 +727,23 @@ fn bindgen_test_layout___sigset_t() {
         8usize,
         concat!("Alignment of ", stringify!(__sigset_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__sigset_t>())).__val as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__sigset_t),
-            "::",
-            stringify!(__val)
-        )
-    );
+    fn test_field___val() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__sigset_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__val) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__sigset_t),
+                "::",
+                stringify!(__val)
+            )
+        );
+    }
+    test_field___val();
 }
 pub type sigset_t = __sigset_t;
 #[repr(C)]
@@ -705,26 +764,40 @@ fn bindgen_test_layout_timeval() {
         8usize,
         concat!("Alignment of ", stringify!(timeval))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<timeval>())).tv_sec as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(timeval),
-            "::",
-            stringify!(tv_sec)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<timeval>())).tv_usec as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(timeval),
-            "::",
-            stringify!(tv_usec)
-        )
-    );
+    fn test_field_tv_sec() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<timeval>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).tv_sec) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(timeval),
+                "::",
+                stringify!(tv_sec)
+            )
+        );
+    }
+    test_field_tv_sec();
+    fn test_field_tv_usec() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<timeval>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).tv_usec) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(timeval),
+                "::",
+                stringify!(tv_usec)
+            )
+        );
+    }
+    test_field_tv_usec();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -744,26 +817,40 @@ fn bindgen_test_layout_timespec() {
         8usize,
         concat!("Alignment of ", stringify!(timespec))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<timespec>())).tv_sec as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(timespec),
-            "::",
-            stringify!(tv_sec)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<timespec>())).tv_nsec as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(timespec),
-            "::",
-            stringify!(tv_nsec)
-        )
-    );
+    fn test_field_tv_sec() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<timespec>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).tv_sec) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(timespec),
+                "::",
+                stringify!(tv_sec)
+            )
+        );
+    }
+    test_field_tv_sec();
+    fn test_field_tv_nsec() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<timespec>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).tv_nsec) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(timespec),
+                "::",
+                stringify!(tv_nsec)
+            )
+        );
+    }
+    test_field_tv_nsec();
 }
 pub type suseconds_t = __suseconds_t;
 pub type __fd_mask = ::std::os::raw::c_long;
@@ -784,16 +871,23 @@ fn bindgen_test_layout_fd_set() {
         8usize,
         concat!("Alignment of ", stringify!(fd_set))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<fd_set>())).__fds_bits as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(fd_set),
-            "::",
-            stringify!(__fds_bits)
-        )
-    );
+    fn test_field___fds_bits() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<fd_set>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__fds_bits) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(fd_set),
+                "::",
+                stringify!(__fds_bits)
+            )
+        );
+    }
+    test_field___fds_bits();
 }
 pub type fd_mask = __fd_mask;
 extern "C" {
@@ -820,6 +914,117 @@ pub type blkcnt_t = __blkcnt_t;
 pub type fsblkcnt_t = __fsblkcnt_t;
 pub type fsfilcnt_t = __fsfilcnt_t;
 #[repr(C)]
+#[derive(Copy, Clone)]
+pub union __atomic_wide_counter {
+    pub __value64: ::std::os::raw::c_ulonglong,
+    pub __value32: __atomic_wide_counter__bindgen_ty_1,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct __atomic_wide_counter__bindgen_ty_1 {
+    pub __low: ::std::os::raw::c_uint,
+    pub __high: ::std::os::raw::c_uint,
+}
+#[test]
+fn bindgen_test_layout___atomic_wide_counter__bindgen_ty_1() {
+    assert_eq!(
+        ::std::mem::size_of::<__atomic_wide_counter__bindgen_ty_1>(),
+        8usize,
+        concat!("Size of: ", stringify!(__atomic_wide_counter__bindgen_ty_1))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<__atomic_wide_counter__bindgen_ty_1>(),
+        4usize,
+        concat!(
+            "Alignment of ",
+            stringify!(__atomic_wide_counter__bindgen_ty_1)
+        )
+    );
+    fn test_field___low() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<__atomic_wide_counter__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__low) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__atomic_wide_counter__bindgen_ty_1),
+                "::",
+                stringify!(__low)
+            )
+        );
+    }
+    test_field___low();
+    fn test_field___high() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<__atomic_wide_counter__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__high) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__atomic_wide_counter__bindgen_ty_1),
+                "::",
+                stringify!(__high)
+            )
+        );
+    }
+    test_field___high();
+}
+#[test]
+fn bindgen_test_layout___atomic_wide_counter() {
+    assert_eq!(
+        ::std::mem::size_of::<__atomic_wide_counter>(),
+        8usize,
+        concat!("Size of: ", stringify!(__atomic_wide_counter))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<__atomic_wide_counter>(),
+        8usize,
+        concat!("Alignment of ", stringify!(__atomic_wide_counter))
+    );
+    fn test_field___value64() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__atomic_wide_counter>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__value64) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__atomic_wide_counter),
+                "::",
+                stringify!(__value64)
+            )
+        );
+    }
+    test_field___value64();
+    fn test_field___value32() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__atomic_wide_counter>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__value32) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__atomic_wide_counter),
+                "::",
+                stringify!(__value32)
+            )
+        );
+    }
+    test_field___value32();
+}
+#[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct __pthread_internal_list {
     pub __prev: *mut __pthread_internal_list,
@@ -837,26 +1042,40 @@ fn bindgen_test_layout___pthread_internal_list() {
         8usize,
         concat!("Alignment of ", stringify!(__pthread_internal_list))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_internal_list>())).__prev as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_internal_list),
-            "::",
-            stringify!(__prev)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_internal_list>())).__next as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_internal_list),
-            "::",
-            stringify!(__next)
-        )
-    );
+    fn test_field___prev() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_internal_list>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__prev) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_internal_list),
+                "::",
+                stringify!(__prev)
+            )
+        );
+    }
+    test_field___prev();
+    fn test_field___next() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_internal_list>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__next) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_internal_list),
+                "::",
+                stringify!(__next)
+            )
+        );
+    }
+    test_field___next();
 }
 pub type __pthread_list_t = __pthread_internal_list;
 #[repr(C)]
@@ -876,16 +1095,23 @@ fn bindgen_test_layout___pthread_internal_slist() {
         8usize,
         concat!("Alignment of ", stringify!(__pthread_internal_slist))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_internal_slist>())).__next as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_internal_slist),
-            "::",
-            stringify!(__next)
-        )
-    );
+    fn test_field___next() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_internal_slist>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__next) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_internal_slist),
+                "::",
+                stringify!(__next)
+            )
+        );
+    }
+    test_field___next();
 }
 pub type __pthread_slist_t = __pthread_internal_slist;
 #[repr(C)]
@@ -912,86 +1138,142 @@ fn bindgen_test_layout___pthread_mutex_s() {
         8usize,
         concat!("Alignment of ", stringify!(__pthread_mutex_s))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__lock as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__lock)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__count as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__count)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__owner as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__owner)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__nusers as *const _ as usize },
-        12usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__nusers)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__kind as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__kind)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__spins as *const _ as usize },
-        20usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__spins)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__elision as *const _ as usize },
-        22usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__elision)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_mutex_s>())).__list as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_mutex_s),
-            "::",
-            stringify!(__list)
-        )
-    );
+    fn test_field___lock() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__lock) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__lock)
+            )
+        );
+    }
+    test_field___lock();
+    fn test_field___count() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__count) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__count)
+            )
+        );
+    }
+    test_field___count();
+    fn test_field___owner() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__owner) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__owner)
+            )
+        );
+    }
+    test_field___owner();
+    fn test_field___nusers() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__nusers) as usize - ptr as usize
+            },
+            12usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__nusers)
+            )
+        );
+    }
+    test_field___nusers();
+    fn test_field___kind() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__kind) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__kind)
+            )
+        );
+    }
+    test_field___kind();
+    fn test_field___spins() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__spins) as usize - ptr as usize
+            },
+            20usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__spins)
+            )
+        );
+    }
+    test_field___spins();
+    fn test_field___elision() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__elision) as usize - ptr as usize
+            },
+            22usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__elision)
+            )
+        );
+    }
+    test_field___elision();
+    fn test_field___list() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_mutex_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__list) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_mutex_s),
+                "::",
+                stringify!(__list)
+            )
+        );
+    }
+    test_field___list();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -1021,341 +1303,221 @@ fn bindgen_test_layout___pthread_rwlock_arch_t() {
         8usize,
         concat!("Alignment of ", stringify!(__pthread_rwlock_arch_t))
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__readers as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__readers)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__writers as *const _ as usize
-        },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__writers)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__wrphase_futex as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__wrphase_futex)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__writers_futex as *const _ as usize
-        },
-        12usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__writers_futex)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__pad3 as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__pad3)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__pad4 as *const _ as usize },
-        20usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__pad4)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__cur_writer as *const _ as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__cur_writer)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__shared as *const _ as usize
-        },
-        28usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__shared)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__rwelision as *const _ as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__rwelision)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__pad1 as *const _ as usize },
-        33usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__pad1)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__pad2 as *const _ as usize },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__pad2)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_rwlock_arch_t>())).__flags as *const _ as usize },
-        48usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_rwlock_arch_t),
-            "::",
-            stringify!(__flags)
-        )
-    );
+    fn test_field___readers() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__readers) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__readers)
+            )
+        );
+    }
+    test_field___readers();
+    fn test_field___writers() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__writers) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__writers)
+            )
+        );
+    }
+    test_field___writers();
+    fn test_field___wrphase_futex() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__wrphase_futex) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__wrphase_futex)
+            )
+        );
+    }
+    test_field___wrphase_futex();
+    fn test_field___writers_futex() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__writers_futex) as usize - ptr as usize
+            },
+            12usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__writers_futex)
+            )
+        );
+    }
+    test_field___writers_futex();
+    fn test_field___pad3() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__pad3) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__pad3)
+            )
+        );
+    }
+    test_field___pad3();
+    fn test_field___pad4() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__pad4) as usize - ptr as usize
+            },
+            20usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__pad4)
+            )
+        );
+    }
+    test_field___pad4();
+    fn test_field___cur_writer() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__cur_writer) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__cur_writer)
+            )
+        );
+    }
+    test_field___cur_writer();
+    fn test_field___shared() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__shared) as usize - ptr as usize
+            },
+            28usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__shared)
+            )
+        );
+    }
+    test_field___shared();
+    fn test_field___rwelision() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__rwelision) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__rwelision)
+            )
+        );
+    }
+    test_field___rwelision();
+    fn test_field___pad1() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__pad1) as usize - ptr as usize
+            },
+            33usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__pad1)
+            )
+        );
+    }
+    test_field___pad1();
+    fn test_field___pad2() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__pad2) as usize - ptr as usize
+            },
+            40usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__pad2)
+            )
+        );
+    }
+    test_field___pad2();
+    fn test_field___flags() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_rwlock_arch_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__flags) as usize - ptr as usize
+            },
+            48usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_rwlock_arch_t),
+                "::",
+                stringify!(__flags)
+            )
+        );
+    }
+    test_field___flags();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct __pthread_cond_s {
-    pub __bindgen_anon_1: __pthread_cond_s__bindgen_ty_1,
-    pub __bindgen_anon_2: __pthread_cond_s__bindgen_ty_2,
+    pub __wseq: __atomic_wide_counter,
+    pub __g1_start: __atomic_wide_counter,
     pub __g_refs: [::std::os::raw::c_uint; 2usize],
     pub __g_size: [::std::os::raw::c_uint; 2usize],
     pub __g1_orig_size: ::std::os::raw::c_uint,
     pub __wrefs: ::std::os::raw::c_uint,
     pub __g_signals: [::std::os::raw::c_uint; 2usize],
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union __pthread_cond_s__bindgen_ty_1 {
-    pub __wseq: ::std::os::raw::c_ulonglong,
-    pub __wseq32: __pthread_cond_s__bindgen_ty_1__bindgen_ty_1,
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct __pthread_cond_s__bindgen_ty_1__bindgen_ty_1 {
-    pub __low: ::std::os::raw::c_uint,
-    pub __high: ::std::os::raw::c_uint,
-}
-#[test]
-fn bindgen_test_layout___pthread_cond_s__bindgen_ty_1__bindgen_ty_1() {
-    assert_eq!(
-        ::std::mem::size_of::<__pthread_cond_s__bindgen_ty_1__bindgen_ty_1>(),
-        8usize,
-        concat!(
-            "Size of: ",
-            stringify!(__pthread_cond_s__bindgen_ty_1__bindgen_ty_1)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__pthread_cond_s__bindgen_ty_1__bindgen_ty_1>(),
-        4usize,
-        concat!(
-            "Alignment of ",
-            stringify!(__pthread_cond_s__bindgen_ty_1__bindgen_ty_1)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_1__bindgen_ty_1>())).__low
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_1__bindgen_ty_1),
-            "::",
-            stringify!(__low)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_1__bindgen_ty_1>())).__high
-                as *const _ as usize
-        },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_1__bindgen_ty_1),
-            "::",
-            stringify!(__high)
-        )
-    );
-}
-#[test]
-fn bindgen_test_layout___pthread_cond_s__bindgen_ty_1() {
-    assert_eq!(
-        ::std::mem::size_of::<__pthread_cond_s__bindgen_ty_1>(),
-        8usize,
-        concat!("Size of: ", stringify!(__pthread_cond_s__bindgen_ty_1))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__pthread_cond_s__bindgen_ty_1>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__pthread_cond_s__bindgen_ty_1))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_1>())).__wseq as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_1),
-            "::",
-            stringify!(__wseq)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_1>())).__wseq32 as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_1),
-            "::",
-            stringify!(__wseq32)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union __pthread_cond_s__bindgen_ty_2 {
-    pub __g1_start: ::std::os::raw::c_ulonglong,
-    pub __g1_start32: __pthread_cond_s__bindgen_ty_2__bindgen_ty_1,
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct __pthread_cond_s__bindgen_ty_2__bindgen_ty_1 {
-    pub __low: ::std::os::raw::c_uint,
-    pub __high: ::std::os::raw::c_uint,
-}
-#[test]
-fn bindgen_test_layout___pthread_cond_s__bindgen_ty_2__bindgen_ty_1() {
-    assert_eq!(
-        ::std::mem::size_of::<__pthread_cond_s__bindgen_ty_2__bindgen_ty_1>(),
-        8usize,
-        concat!(
-            "Size of: ",
-            stringify!(__pthread_cond_s__bindgen_ty_2__bindgen_ty_1)
-        )
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__pthread_cond_s__bindgen_ty_2__bindgen_ty_1>(),
-        4usize,
-        concat!(
-            "Alignment of ",
-            stringify!(__pthread_cond_s__bindgen_ty_2__bindgen_ty_1)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_2__bindgen_ty_1>())).__low
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_2__bindgen_ty_1),
-            "::",
-            stringify!(__low)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_2__bindgen_ty_1>())).__high
-                as *const _ as usize
-        },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_2__bindgen_ty_1),
-            "::",
-            stringify!(__high)
-        )
-    );
-}
-#[test]
-fn bindgen_test_layout___pthread_cond_s__bindgen_ty_2() {
-    assert_eq!(
-        ::std::mem::size_of::<__pthread_cond_s__bindgen_ty_2>(),
-        8usize,
-        concat!("Size of: ", stringify!(__pthread_cond_s__bindgen_ty_2))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__pthread_cond_s__bindgen_ty_2>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__pthread_cond_s__bindgen_ty_2))
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_2>())).__g1_start as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_2),
-            "::",
-            stringify!(__g1_start)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__pthread_cond_s__bindgen_ty_2>())).__g1_start32 as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s__bindgen_ty_2),
-            "::",
-            stringify!(__g1_start32)
-        )
-    );
 }
 #[test]
 fn bindgen_test_layout___pthread_cond_s() {
@@ -1369,56 +1531,125 @@ fn bindgen_test_layout___pthread_cond_s() {
         8usize,
         concat!("Alignment of ", stringify!(__pthread_cond_s))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_cond_s>())).__g_refs as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s),
-            "::",
-            stringify!(__g_refs)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_cond_s>())).__g_size as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s),
-            "::",
-            stringify!(__g_size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_cond_s>())).__g1_orig_size as *const _ as usize },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s),
-            "::",
-            stringify!(__g1_orig_size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_cond_s>())).__wrefs as *const _ as usize },
-        36usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s),
-            "::",
-            stringify!(__wrefs)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__pthread_cond_s>())).__g_signals as *const _ as usize },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__pthread_cond_s),
-            "::",
-            stringify!(__g_signals)
-        )
-    );
+    fn test_field___wseq() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_cond_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__wseq) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_cond_s),
+                "::",
+                stringify!(__wseq)
+            )
+        );
+    }
+    test_field___wseq();
+    fn test_field___g1_start() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_cond_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__g1_start) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_cond_s),
+                "::",
+                stringify!(__g1_start)
+            )
+        );
+    }
+    test_field___g1_start();
+    fn test_field___g_refs() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_cond_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__g_refs) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_cond_s),
+                "::",
+                stringify!(__g_refs)
+            )
+        );
+    }
+    test_field___g_refs();
+    fn test_field___g_size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_cond_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__g_size) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_cond_s),
+                "::",
+                stringify!(__g_size)
+            )
+        );
+    }
+    test_field___g_size();
+    fn test_field___g1_orig_size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_cond_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__g1_orig_size) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_cond_s),
+                "::",
+                stringify!(__g1_orig_size)
+            )
+        );
+    }
+    test_field___g1_orig_size();
+    fn test_field___wrefs() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_cond_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__wrefs) as usize - ptr as usize
+            },
+            36usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_cond_s),
+                "::",
+                stringify!(__wrefs)
+            )
+        );
+    }
+    test_field___wrefs();
+    fn test_field___g_signals() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__pthread_cond_s>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__g_signals) as usize - ptr as usize
+            },
+            40usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__pthread_cond_s),
+                "::",
+                stringify!(__g_signals)
+            )
+        );
+    }
+    test_field___g_signals();
 }
 pub type __tss_t = ::std::os::raw::c_uint;
 pub type __thrd_t = ::std::os::raw::c_ulong;
@@ -1439,16 +1670,23 @@ fn bindgen_test_layout___once_flag() {
         4usize,
         concat!("Alignment of ", stringify!(__once_flag))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__once_flag>())).__data as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__once_flag),
-            "::",
-            stringify!(__data)
-        )
-    );
+    fn test_field___data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__once_flag>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__data) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__once_flag),
+                "::",
+                stringify!(__data)
+            )
+        );
+    }
+    test_field___data();
 }
 pub type pthread_t = ::std::os::raw::c_ulong;
 #[repr(C)]
@@ -1469,26 +1707,40 @@ fn bindgen_test_layout_pthread_mutexattr_t() {
         4usize,
         concat!("Alignment of ", stringify!(pthread_mutexattr_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_mutexattr_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_mutexattr_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_mutexattr_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_mutexattr_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_mutexattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_mutexattr_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_mutexattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_mutexattr_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1508,26 +1760,40 @@ fn bindgen_test_layout_pthread_condattr_t() {
         4usize,
         concat!("Alignment of ", stringify!(pthread_condattr_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_condattr_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_condattr_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_condattr_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_condattr_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_condattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_condattr_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_condattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_condattr_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 pub type pthread_key_t = ::std::os::raw::c_uint;
 pub type pthread_once_t = ::std::os::raw::c_int;
@@ -1549,26 +1815,40 @@ fn bindgen_test_layout_pthread_attr_t() {
         8usize,
         concat!("Alignment of ", stringify!(pthread_attr_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_attr_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_attr_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_attr_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_attr_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_attr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_attr_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_attr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_attr_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1589,36 +1869,57 @@ fn bindgen_test_layout_pthread_mutex_t() {
         8usize,
         concat!("Alignment of ", stringify!(pthread_mutex_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_mutex_t>())).__data as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_mutex_t),
-            "::",
-            stringify!(__data)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_mutex_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_mutex_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_mutex_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_mutex_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_mutex_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__data) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_mutex_t),
+                "::",
+                stringify!(__data)
+            )
+        );
+    }
+    test_field___data();
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_mutex_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_mutex_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_mutex_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_mutex_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1639,36 +1940,57 @@ fn bindgen_test_layout_pthread_cond_t() {
         8usize,
         concat!("Alignment of ", stringify!(pthread_cond_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_cond_t>())).__data as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_cond_t),
-            "::",
-            stringify!(__data)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_cond_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_cond_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_cond_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_cond_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_cond_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__data) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_cond_t),
+                "::",
+                stringify!(__data)
+            )
+        );
+    }
+    test_field___data();
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_cond_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_cond_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_cond_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_cond_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1689,36 +2011,57 @@ fn bindgen_test_layout_pthread_rwlock_t() {
         8usize,
         concat!("Alignment of ", stringify!(pthread_rwlock_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_rwlock_t>())).__data as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_rwlock_t),
-            "::",
-            stringify!(__data)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_rwlock_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_rwlock_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_rwlock_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_rwlock_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_rwlock_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__data) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_rwlock_t),
+                "::",
+                stringify!(__data)
+            )
+        );
+    }
+    test_field___data();
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_rwlock_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_rwlock_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_rwlock_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_rwlock_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1738,26 +2081,40 @@ fn bindgen_test_layout_pthread_rwlockattr_t() {
         8usize,
         concat!("Alignment of ", stringify!(pthread_rwlockattr_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_rwlockattr_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_rwlockattr_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_rwlockattr_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_rwlockattr_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_rwlockattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_rwlockattr_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_rwlockattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_rwlockattr_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 pub type pthread_spinlock_t = ::std::os::raw::c_int;
 #[repr(C)]
@@ -1778,26 +2135,40 @@ fn bindgen_test_layout_pthread_barrier_t() {
         8usize,
         concat!("Alignment of ", stringify!(pthread_barrier_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_barrier_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_barrier_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_barrier_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_barrier_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_barrier_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_barrier_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_barrier_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_barrier_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1817,26 +2188,40 @@ fn bindgen_test_layout_pthread_barrierattr_t() {
         4usize,
         concat!("Alignment of ", stringify!(pthread_barrierattr_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_barrierattr_t>())).__size as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_barrierattr_t),
-            "::",
-            stringify!(__size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<pthread_barrierattr_t>())).__align as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(pthread_barrierattr_t),
-            "::",
-            stringify!(__align)
-        )
-    );
+    fn test_field___size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_barrierattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__size) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_barrierattr_t),
+                "::",
+                stringify!(__size)
+            )
+        );
+    }
+    test_field___size();
+    fn test_field___align() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<pthread_barrierattr_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__align) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(pthread_barrierattr_t),
+                "::",
+                stringify!(__align)
+            )
+        );
+    }
+    test_field___align();
 }
 extern "C" {
     pub fn random() -> ::std::os::raw::c_long;
@@ -1877,76 +2262,125 @@ fn bindgen_test_layout_random_data() {
         8usize,
         concat!("Alignment of ", stringify!(random_data))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<random_data>())).fptr as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(random_data),
-            "::",
-            stringify!(fptr)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<random_data>())).rptr as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(random_data),
-            "::",
-            stringify!(rptr)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<random_data>())).state as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(random_data),
-            "::",
-            stringify!(state)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<random_data>())).rand_type as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(random_data),
-            "::",
-            stringify!(rand_type)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<random_data>())).rand_deg as *const _ as usize },
-        28usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(random_data),
-            "::",
-            stringify!(rand_deg)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<random_data>())).rand_sep as *const _ as usize },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(random_data),
-            "::",
-            stringify!(rand_sep)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<random_data>())).end_ptr as *const _ as usize },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(random_data),
-            "::",
-            stringify!(end_ptr)
-        )
-    );
+    fn test_field_fptr() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<random_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).fptr) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(random_data),
+                "::",
+                stringify!(fptr)
+            )
+        );
+    }
+    test_field_fptr();
+    fn test_field_rptr() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<random_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rptr) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(random_data),
+                "::",
+                stringify!(rptr)
+            )
+        );
+    }
+    test_field_rptr();
+    fn test_field_state() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<random_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).state) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(random_data),
+                "::",
+                stringify!(state)
+            )
+        );
+    }
+    test_field_state();
+    fn test_field_rand_type() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<random_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rand_type) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(random_data),
+                "::",
+                stringify!(rand_type)
+            )
+        );
+    }
+    test_field_rand_type();
+    fn test_field_rand_deg() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<random_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rand_deg) as usize - ptr as usize
+            },
+            28usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(random_data),
+                "::",
+                stringify!(rand_deg)
+            )
+        );
+    }
+    test_field_rand_deg();
+    fn test_field_rand_sep() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<random_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rand_sep) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(random_data),
+                "::",
+                stringify!(rand_sep)
+            )
+        );
+    }
+    test_field_rand_sep();
+    fn test_field_end_ptr() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<random_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).end_ptr) as usize - ptr as usize
+            },
+            40usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(random_data),
+                "::",
+                stringify!(end_ptr)
+            )
+        );
+    }
+    test_field_end_ptr();
 }
 extern "C" {
     pub fn random_r(__buf: *mut random_data, __result: *mut i32) -> ::std::os::raw::c_int;
@@ -2028,56 +2462,91 @@ fn bindgen_test_layout_drand48_data() {
         8usize,
         concat!("Alignment of ", stringify!(drand48_data))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<drand48_data>())).__x as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(drand48_data),
-            "::",
-            stringify!(__x)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<drand48_data>())).__old_x as *const _ as usize },
-        6usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(drand48_data),
-            "::",
-            stringify!(__old_x)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<drand48_data>())).__c as *const _ as usize },
-        12usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(drand48_data),
-            "::",
-            stringify!(__c)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<drand48_data>())).__init as *const _ as usize },
-        14usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(drand48_data),
-            "::",
-            stringify!(__init)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<drand48_data>())).__a as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(drand48_data),
-            "::",
-            stringify!(__a)
-        )
-    );
+    fn test_field___x() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<drand48_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__x) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(drand48_data),
+                "::",
+                stringify!(__x)
+            )
+        );
+    }
+    test_field___x();
+    fn test_field___old_x() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<drand48_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__old_x) as usize - ptr as usize
+            },
+            6usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(drand48_data),
+                "::",
+                stringify!(__old_x)
+            )
+        );
+    }
+    test_field___old_x();
+    fn test_field___c() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<drand48_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__c) as usize - ptr as usize
+            },
+            12usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(drand48_data),
+                "::",
+                stringify!(__c)
+            )
+        );
+    }
+    test_field___c();
+    fn test_field___init() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<drand48_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__init) as usize - ptr as usize
+            },
+            14usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(drand48_data),
+                "::",
+                stringify!(__init)
+            )
+        );
+    }
+    test_field___init();
+    fn test_field___a() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<drand48_data>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__a) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(drand48_data),
+                "::",
+                stringify!(__a)
+            )
+        );
+    }
+    test_field___a();
 }
 extern "C" {
     pub fn drand48_r(__buffer: *mut drand48_data, __result: *mut f64) -> ::std::os::raw::c_int;
@@ -2134,6 +2603,15 @@ extern "C" {
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
+    pub fn arc4random() -> __uint32_t;
+}
+extern "C" {
+    pub fn arc4random_buf(__buf: *mut ::std::os::raw::c_void, __size: size_t);
+}
+extern "C" {
+    pub fn arc4random_uniform(__upper_bound: __uint32_t) -> __uint32_t;
+}
+extern "C" {
     pub fn malloc(__size: ::std::os::raw::c_ulong) -> *mut ::std::os::raw::c_void;
 }
 extern "C" {
@@ -2149,14 +2627,14 @@ extern "C" {
     ) -> *mut ::std::os::raw::c_void;
 }
 extern "C" {
+    pub fn free(__ptr: *mut ::std::os::raw::c_void);
+}
+extern "C" {
     pub fn reallocarray(
         __ptr: *mut ::std::os::raw::c_void,
         __nmemb: size_t,
         __size: size_t,
     ) -> *mut ::std::os::raw::c_void;
-}
-extern "C" {
-    pub fn free(__ptr: *mut ::std::os::raw::c_void);
 }
 extern "C" {
     pub fn alloca(__size: ::std::os::raw::c_ulong) -> *mut ::std::os::raw::c_void;
@@ -2172,7 +2650,10 @@ extern "C" {
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn aligned_alloc(__alignment: size_t, __size: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn aligned_alloc(
+        __alignment: ::std::os::raw::c_ulong,
+        __size: ::std::os::raw::c_ulong,
+    ) -> *mut ::std::os::raw::c_void;
 }
 extern "C" {
     pub fn abort();
@@ -2466,56 +2947,91 @@ fn bindgen_test_layout_MonoAllocatorVTable() {
         8usize,
         concat!("Alignment of ", stringify!(MonoAllocatorVTable))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoAllocatorVTable>())).version as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoAllocatorVTable),
-            "::",
-            stringify!(version)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoAllocatorVTable>())).malloc as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoAllocatorVTable),
-            "::",
-            stringify!(malloc)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoAllocatorVTable>())).realloc as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoAllocatorVTable),
-            "::",
-            stringify!(realloc)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoAllocatorVTable>())).free as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoAllocatorVTable),
-            "::",
-            stringify!(free)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoAllocatorVTable>())).calloc as *const _ as usize },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoAllocatorVTable),
-            "::",
-            stringify!(calloc)
-        )
-    );
+    fn test_field_version() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoAllocatorVTable>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).version) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoAllocatorVTable),
+                "::",
+                stringify!(version)
+            )
+        );
+    }
+    test_field_version();
+    fn test_field_malloc() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoAllocatorVTable>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).malloc) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoAllocatorVTable),
+                "::",
+                stringify!(malloc)
+            )
+        );
+    }
+    test_field_malloc();
+    fn test_field_realloc() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoAllocatorVTable>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).realloc) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoAllocatorVTable),
+                "::",
+                stringify!(realloc)
+            )
+        );
+    }
+    test_field_realloc();
+    fn test_field_free() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoAllocatorVTable>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).free) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoAllocatorVTable),
+                "::",
+                stringify!(free)
+            )
+        );
+    }
+    test_field_free();
+    fn test_field_calloc() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoAllocatorVTable>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).calloc) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoAllocatorVTable),
+                "::",
+                stringify!(calloc)
+            )
+        );
+    }
+    test_field_calloc();
 }
 extern "C" {
     pub fn mono_set_allocator_vtable(vtable: *mut MonoAllocatorVTable) -> mono_bool;
@@ -2663,350 +3179,350 @@ pub const MonoMetaTableEnum_MONO_TABLE_IMPORTSCOPE: MonoMetaTableEnum = 53;
 pub const MonoMetaTableEnum_MONO_TABLE_STATEMACHINEMETHOD: MonoMetaTableEnum = 54;
 pub const MonoMetaTableEnum_MONO_TABLE_CUSTOMDEBUGINFORMATION: MonoMetaTableEnum = 55;
 pub type MonoMetaTableEnum = ::std::os::raw::c_uint;
-pub const MONO_ASSEMBLY_HASH_ALG: ::std::os::raw::c_uint = 0;
-pub const MONO_ASSEMBLY_MAJOR_VERSION: ::std::os::raw::c_uint = 1;
-pub const MONO_ASSEMBLY_MINOR_VERSION: ::std::os::raw::c_uint = 2;
-pub const MONO_ASSEMBLY_BUILD_NUMBER: ::std::os::raw::c_uint = 3;
-pub const MONO_ASSEMBLY_REV_NUMBER: ::std::os::raw::c_uint = 4;
-pub const MONO_ASSEMBLY_FLAGS: ::std::os::raw::c_uint = 5;
-pub const MONO_ASSEMBLY_PUBLIC_KEY: ::std::os::raw::c_uint = 6;
-pub const MONO_ASSEMBLY_NAME: ::std::os::raw::c_uint = 7;
-pub const MONO_ASSEMBLY_CULTURE: ::std::os::raw::c_uint = 8;
-pub const MONO_ASSEMBLY_SIZE: ::std::os::raw::c_uint = 9;
+pub const MONO_ASSEMBLY_HASH_ALG: _bindgen_ty_1 = 0;
+pub const MONO_ASSEMBLY_MAJOR_VERSION: _bindgen_ty_1 = 1;
+pub const MONO_ASSEMBLY_MINOR_VERSION: _bindgen_ty_1 = 2;
+pub const MONO_ASSEMBLY_BUILD_NUMBER: _bindgen_ty_1 = 3;
+pub const MONO_ASSEMBLY_REV_NUMBER: _bindgen_ty_1 = 4;
+pub const MONO_ASSEMBLY_FLAGS: _bindgen_ty_1 = 5;
+pub const MONO_ASSEMBLY_PUBLIC_KEY: _bindgen_ty_1 = 6;
+pub const MONO_ASSEMBLY_NAME: _bindgen_ty_1 = 7;
+pub const MONO_ASSEMBLY_CULTURE: _bindgen_ty_1 = 8;
+pub const MONO_ASSEMBLY_SIZE: _bindgen_ty_1 = 9;
 pub type _bindgen_ty_1 = ::std::os::raw::c_uint;
-pub const MONO_ASSEMBLYOS_PLATFORM: ::std::os::raw::c_uint = 0;
-pub const MONO_ASSEMBLYOS_MAJOR_VERSION: ::std::os::raw::c_uint = 1;
-pub const MONO_ASSEMBLYOS_MINOR_VERSION: ::std::os::raw::c_uint = 2;
-pub const MONO_ASSEMBLYOS_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_ASSEMBLYOS_PLATFORM: _bindgen_ty_2 = 0;
+pub const MONO_ASSEMBLYOS_MAJOR_VERSION: _bindgen_ty_2 = 1;
+pub const MONO_ASSEMBLYOS_MINOR_VERSION: _bindgen_ty_2 = 2;
+pub const MONO_ASSEMBLYOS_SIZE: _bindgen_ty_2 = 3;
 pub type _bindgen_ty_2 = ::std::os::raw::c_uint;
-pub const MONO_ASSEMBLY_PROCESSOR: ::std::os::raw::c_uint = 0;
-pub const MONO_ASSEMBLY_PROCESSOR_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_ASSEMBLY_PROCESSOR: _bindgen_ty_3 = 0;
+pub const MONO_ASSEMBLY_PROCESSOR_SIZE: _bindgen_ty_3 = 1;
 pub type _bindgen_ty_3 = ::std::os::raw::c_uint;
-pub const MONO_ASSEMBLYREF_MAJOR_VERSION: ::std::os::raw::c_uint = 0;
-pub const MONO_ASSEMBLYREF_MINOR_VERSION: ::std::os::raw::c_uint = 1;
-pub const MONO_ASSEMBLYREF_BUILD_NUMBER: ::std::os::raw::c_uint = 2;
-pub const MONO_ASSEMBLYREF_REV_NUMBER: ::std::os::raw::c_uint = 3;
-pub const MONO_ASSEMBLYREF_FLAGS: ::std::os::raw::c_uint = 4;
-pub const MONO_ASSEMBLYREF_PUBLIC_KEY: ::std::os::raw::c_uint = 5;
-pub const MONO_ASSEMBLYREF_NAME: ::std::os::raw::c_uint = 6;
-pub const MONO_ASSEMBLYREF_CULTURE: ::std::os::raw::c_uint = 7;
-pub const MONO_ASSEMBLYREF_HASH_VALUE: ::std::os::raw::c_uint = 8;
-pub const MONO_ASSEMBLYREF_SIZE: ::std::os::raw::c_uint = 9;
+pub const MONO_ASSEMBLYREF_MAJOR_VERSION: _bindgen_ty_4 = 0;
+pub const MONO_ASSEMBLYREF_MINOR_VERSION: _bindgen_ty_4 = 1;
+pub const MONO_ASSEMBLYREF_BUILD_NUMBER: _bindgen_ty_4 = 2;
+pub const MONO_ASSEMBLYREF_REV_NUMBER: _bindgen_ty_4 = 3;
+pub const MONO_ASSEMBLYREF_FLAGS: _bindgen_ty_4 = 4;
+pub const MONO_ASSEMBLYREF_PUBLIC_KEY: _bindgen_ty_4 = 5;
+pub const MONO_ASSEMBLYREF_NAME: _bindgen_ty_4 = 6;
+pub const MONO_ASSEMBLYREF_CULTURE: _bindgen_ty_4 = 7;
+pub const MONO_ASSEMBLYREF_HASH_VALUE: _bindgen_ty_4 = 8;
+pub const MONO_ASSEMBLYREF_SIZE: _bindgen_ty_4 = 9;
 pub type _bindgen_ty_4 = ::std::os::raw::c_uint;
-pub const MONO_ASSEMBLYREFOS_PLATFORM: ::std::os::raw::c_uint = 0;
-pub const MONO_ASSEMBLYREFOS_MAJOR_VERSION: ::std::os::raw::c_uint = 1;
-pub const MONO_ASSEMBLYREFOS_MINOR_VERSION: ::std::os::raw::c_uint = 2;
-pub const MONO_ASSEMBLYREFOS_ASSEMBLYREF: ::std::os::raw::c_uint = 3;
-pub const MONO_ASSEMBLYREFOS_SIZE: ::std::os::raw::c_uint = 4;
+pub const MONO_ASSEMBLYREFOS_PLATFORM: _bindgen_ty_5 = 0;
+pub const MONO_ASSEMBLYREFOS_MAJOR_VERSION: _bindgen_ty_5 = 1;
+pub const MONO_ASSEMBLYREFOS_MINOR_VERSION: _bindgen_ty_5 = 2;
+pub const MONO_ASSEMBLYREFOS_ASSEMBLYREF: _bindgen_ty_5 = 3;
+pub const MONO_ASSEMBLYREFOS_SIZE: _bindgen_ty_5 = 4;
 pub type _bindgen_ty_5 = ::std::os::raw::c_uint;
-pub const MONO_ASSEMBLYREFPROC_PROCESSOR: ::std::os::raw::c_uint = 0;
-pub const MONO_ASSEMBLYREFPROC_ASSEMBLYREF: ::std::os::raw::c_uint = 1;
-pub const MONO_ASSEMBLYREFPROC_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_ASSEMBLYREFPROC_PROCESSOR: _bindgen_ty_6 = 0;
+pub const MONO_ASSEMBLYREFPROC_ASSEMBLYREF: _bindgen_ty_6 = 1;
+pub const MONO_ASSEMBLYREFPROC_SIZE: _bindgen_ty_6 = 2;
 pub type _bindgen_ty_6 = ::std::os::raw::c_uint;
-pub const MONO_CLASS_LAYOUT_PACKING_SIZE: ::std::os::raw::c_uint = 0;
-pub const MONO_CLASS_LAYOUT_CLASS_SIZE: ::std::os::raw::c_uint = 1;
-pub const MONO_CLASS_LAYOUT_PARENT: ::std::os::raw::c_uint = 2;
-pub const MONO_CLASS_LAYOUT_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_CLASS_LAYOUT_PACKING_SIZE: _bindgen_ty_7 = 0;
+pub const MONO_CLASS_LAYOUT_CLASS_SIZE: _bindgen_ty_7 = 1;
+pub const MONO_CLASS_LAYOUT_PARENT: _bindgen_ty_7 = 2;
+pub const MONO_CLASS_LAYOUT_SIZE: _bindgen_ty_7 = 3;
 pub type _bindgen_ty_7 = ::std::os::raw::c_uint;
-pub const MONO_CONSTANT_TYPE: ::std::os::raw::c_uint = 0;
-pub const MONO_CONSTANT_PADDING: ::std::os::raw::c_uint = 1;
-pub const MONO_CONSTANT_PARENT: ::std::os::raw::c_uint = 2;
-pub const MONO_CONSTANT_VALUE: ::std::os::raw::c_uint = 3;
-pub const MONO_CONSTANT_SIZE: ::std::os::raw::c_uint = 4;
+pub const MONO_CONSTANT_TYPE: _bindgen_ty_8 = 0;
+pub const MONO_CONSTANT_PADDING: _bindgen_ty_8 = 1;
+pub const MONO_CONSTANT_PARENT: _bindgen_ty_8 = 2;
+pub const MONO_CONSTANT_VALUE: _bindgen_ty_8 = 3;
+pub const MONO_CONSTANT_SIZE: _bindgen_ty_8 = 4;
 pub type _bindgen_ty_8 = ::std::os::raw::c_uint;
-pub const MONO_CUSTOM_ATTR_PARENT: ::std::os::raw::c_uint = 0;
-pub const MONO_CUSTOM_ATTR_TYPE: ::std::os::raw::c_uint = 1;
-pub const MONO_CUSTOM_ATTR_VALUE: ::std::os::raw::c_uint = 2;
-pub const MONO_CUSTOM_ATTR_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_CUSTOM_ATTR_PARENT: _bindgen_ty_9 = 0;
+pub const MONO_CUSTOM_ATTR_TYPE: _bindgen_ty_9 = 1;
+pub const MONO_CUSTOM_ATTR_VALUE: _bindgen_ty_9 = 2;
+pub const MONO_CUSTOM_ATTR_SIZE: _bindgen_ty_9 = 3;
 pub type _bindgen_ty_9 = ::std::os::raw::c_uint;
-pub const MONO_DECL_SECURITY_ACTION: ::std::os::raw::c_uint = 0;
-pub const MONO_DECL_SECURITY_PARENT: ::std::os::raw::c_uint = 1;
-pub const MONO_DECL_SECURITY_PERMISSIONSET: ::std::os::raw::c_uint = 2;
-pub const MONO_DECL_SECURITY_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_DECL_SECURITY_ACTION: _bindgen_ty_10 = 0;
+pub const MONO_DECL_SECURITY_PARENT: _bindgen_ty_10 = 1;
+pub const MONO_DECL_SECURITY_PERMISSIONSET: _bindgen_ty_10 = 2;
+pub const MONO_DECL_SECURITY_SIZE: _bindgen_ty_10 = 3;
 pub type _bindgen_ty_10 = ::std::os::raw::c_uint;
-pub const MONO_EVENT_MAP_PARENT: ::std::os::raw::c_uint = 0;
-pub const MONO_EVENT_MAP_EVENTLIST: ::std::os::raw::c_uint = 1;
-pub const MONO_EVENT_MAP_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_EVENT_MAP_PARENT: _bindgen_ty_11 = 0;
+pub const MONO_EVENT_MAP_EVENTLIST: _bindgen_ty_11 = 1;
+pub const MONO_EVENT_MAP_SIZE: _bindgen_ty_11 = 2;
 pub type _bindgen_ty_11 = ::std::os::raw::c_uint;
-pub const MONO_EVENT_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_EVENT_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_EVENT_TYPE: ::std::os::raw::c_uint = 2;
-pub const MONO_EVENT_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_EVENT_FLAGS: _bindgen_ty_12 = 0;
+pub const MONO_EVENT_NAME: _bindgen_ty_12 = 1;
+pub const MONO_EVENT_TYPE: _bindgen_ty_12 = 2;
+pub const MONO_EVENT_SIZE: _bindgen_ty_12 = 3;
 pub type _bindgen_ty_12 = ::std::os::raw::c_uint;
-pub const MONO_EVENT_POINTER_EVENT: ::std::os::raw::c_uint = 0;
-pub const MONO_EVENT_POINTER_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_EVENT_POINTER_EVENT: _bindgen_ty_13 = 0;
+pub const MONO_EVENT_POINTER_SIZE: _bindgen_ty_13 = 1;
 pub type _bindgen_ty_13 = ::std::os::raw::c_uint;
-pub const MONO_EXP_TYPE_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_EXP_TYPE_TYPEDEF: ::std::os::raw::c_uint = 1;
-pub const MONO_EXP_TYPE_NAME: ::std::os::raw::c_uint = 2;
-pub const MONO_EXP_TYPE_NAMESPACE: ::std::os::raw::c_uint = 3;
-pub const MONO_EXP_TYPE_IMPLEMENTATION: ::std::os::raw::c_uint = 4;
-pub const MONO_EXP_TYPE_SIZE: ::std::os::raw::c_uint = 5;
+pub const MONO_EXP_TYPE_FLAGS: _bindgen_ty_14 = 0;
+pub const MONO_EXP_TYPE_TYPEDEF: _bindgen_ty_14 = 1;
+pub const MONO_EXP_TYPE_NAME: _bindgen_ty_14 = 2;
+pub const MONO_EXP_TYPE_NAMESPACE: _bindgen_ty_14 = 3;
+pub const MONO_EXP_TYPE_IMPLEMENTATION: _bindgen_ty_14 = 4;
+pub const MONO_EXP_TYPE_SIZE: _bindgen_ty_14 = 5;
 pub type _bindgen_ty_14 = ::std::os::raw::c_uint;
-pub const MONO_FIELD_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_FIELD_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_FIELD_SIGNATURE: ::std::os::raw::c_uint = 2;
-pub const MONO_FIELD_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_FIELD_FLAGS: _bindgen_ty_15 = 0;
+pub const MONO_FIELD_NAME: _bindgen_ty_15 = 1;
+pub const MONO_FIELD_SIGNATURE: _bindgen_ty_15 = 2;
+pub const MONO_FIELD_SIZE: _bindgen_ty_15 = 3;
 pub type _bindgen_ty_15 = ::std::os::raw::c_uint;
-pub const MONO_FIELD_LAYOUT_OFFSET: ::std::os::raw::c_uint = 0;
-pub const MONO_FIELD_LAYOUT_FIELD: ::std::os::raw::c_uint = 1;
-pub const MONO_FIELD_LAYOUT_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_FIELD_LAYOUT_OFFSET: _bindgen_ty_16 = 0;
+pub const MONO_FIELD_LAYOUT_FIELD: _bindgen_ty_16 = 1;
+pub const MONO_FIELD_LAYOUT_SIZE: _bindgen_ty_16 = 2;
 pub type _bindgen_ty_16 = ::std::os::raw::c_uint;
-pub const MONO_FIELD_MARSHAL_PARENT: ::std::os::raw::c_uint = 0;
-pub const MONO_FIELD_MARSHAL_NATIVE_TYPE: ::std::os::raw::c_uint = 1;
-pub const MONO_FIELD_MARSHAL_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_FIELD_MARSHAL_PARENT: _bindgen_ty_17 = 0;
+pub const MONO_FIELD_MARSHAL_NATIVE_TYPE: _bindgen_ty_17 = 1;
+pub const MONO_FIELD_MARSHAL_SIZE: _bindgen_ty_17 = 2;
 pub type _bindgen_ty_17 = ::std::os::raw::c_uint;
-pub const MONO_FIELD_POINTER_FIELD: ::std::os::raw::c_uint = 0;
-pub const MONO_FIELD_POINTER_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_FIELD_POINTER_FIELD: _bindgen_ty_18 = 0;
+pub const MONO_FIELD_POINTER_SIZE: _bindgen_ty_18 = 1;
 pub type _bindgen_ty_18 = ::std::os::raw::c_uint;
-pub const MONO_FIELD_RVA_RVA: ::std::os::raw::c_uint = 0;
-pub const MONO_FIELD_RVA_FIELD: ::std::os::raw::c_uint = 1;
-pub const MONO_FIELD_RVA_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_FIELD_RVA_RVA: _bindgen_ty_19 = 0;
+pub const MONO_FIELD_RVA_FIELD: _bindgen_ty_19 = 1;
+pub const MONO_FIELD_RVA_SIZE: _bindgen_ty_19 = 2;
 pub type _bindgen_ty_19 = ::std::os::raw::c_uint;
-pub const MONO_FILE_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_FILE_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_FILE_HASH_VALUE: ::std::os::raw::c_uint = 2;
-pub const MONO_FILE_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_FILE_FLAGS: _bindgen_ty_20 = 0;
+pub const MONO_FILE_NAME: _bindgen_ty_20 = 1;
+pub const MONO_FILE_HASH_VALUE: _bindgen_ty_20 = 2;
+pub const MONO_FILE_SIZE: _bindgen_ty_20 = 3;
 pub type _bindgen_ty_20 = ::std::os::raw::c_uint;
-pub const MONO_IMPLMAP_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_IMPLMAP_MEMBER: ::std::os::raw::c_uint = 1;
-pub const MONO_IMPLMAP_NAME: ::std::os::raw::c_uint = 2;
-pub const MONO_IMPLMAP_SCOPE: ::std::os::raw::c_uint = 3;
-pub const MONO_IMPLMAP_SIZE: ::std::os::raw::c_uint = 4;
+pub const MONO_IMPLMAP_FLAGS: _bindgen_ty_21 = 0;
+pub const MONO_IMPLMAP_MEMBER: _bindgen_ty_21 = 1;
+pub const MONO_IMPLMAP_NAME: _bindgen_ty_21 = 2;
+pub const MONO_IMPLMAP_SCOPE: _bindgen_ty_21 = 3;
+pub const MONO_IMPLMAP_SIZE: _bindgen_ty_21 = 4;
 pub type _bindgen_ty_21 = ::std::os::raw::c_uint;
-pub const MONO_INTERFACEIMPL_CLASS: ::std::os::raw::c_uint = 0;
-pub const MONO_INTERFACEIMPL_INTERFACE: ::std::os::raw::c_uint = 1;
-pub const MONO_INTERFACEIMPL_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_INTERFACEIMPL_CLASS: _bindgen_ty_22 = 0;
+pub const MONO_INTERFACEIMPL_INTERFACE: _bindgen_ty_22 = 1;
+pub const MONO_INTERFACEIMPL_SIZE: _bindgen_ty_22 = 2;
 pub type _bindgen_ty_22 = ::std::os::raw::c_uint;
-pub const MONO_MANIFEST_OFFSET: ::std::os::raw::c_uint = 0;
-pub const MONO_MANIFEST_FLAGS: ::std::os::raw::c_uint = 1;
-pub const MONO_MANIFEST_NAME: ::std::os::raw::c_uint = 2;
-pub const MONO_MANIFEST_IMPLEMENTATION: ::std::os::raw::c_uint = 3;
-pub const MONO_MANIFEST_SIZE: ::std::os::raw::c_uint = 4;
+pub const MONO_MANIFEST_OFFSET: _bindgen_ty_23 = 0;
+pub const MONO_MANIFEST_FLAGS: _bindgen_ty_23 = 1;
+pub const MONO_MANIFEST_NAME: _bindgen_ty_23 = 2;
+pub const MONO_MANIFEST_IMPLEMENTATION: _bindgen_ty_23 = 3;
+pub const MONO_MANIFEST_SIZE: _bindgen_ty_23 = 4;
 pub type _bindgen_ty_23 = ::std::os::raw::c_uint;
-pub const MONO_MEMBERREF_CLASS: ::std::os::raw::c_uint = 0;
-pub const MONO_MEMBERREF_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_MEMBERREF_SIGNATURE: ::std::os::raw::c_uint = 2;
-pub const MONO_MEMBERREF_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_MEMBERREF_CLASS: _bindgen_ty_24 = 0;
+pub const MONO_MEMBERREF_NAME: _bindgen_ty_24 = 1;
+pub const MONO_MEMBERREF_SIGNATURE: _bindgen_ty_24 = 2;
+pub const MONO_MEMBERREF_SIZE: _bindgen_ty_24 = 3;
 pub type _bindgen_ty_24 = ::std::os::raw::c_uint;
-pub const MONO_METHOD_RVA: ::std::os::raw::c_uint = 0;
-pub const MONO_METHOD_IMPLFLAGS: ::std::os::raw::c_uint = 1;
-pub const MONO_METHOD_FLAGS: ::std::os::raw::c_uint = 2;
-pub const MONO_METHOD_NAME: ::std::os::raw::c_uint = 3;
-pub const MONO_METHOD_SIGNATURE: ::std::os::raw::c_uint = 4;
-pub const MONO_METHOD_PARAMLIST: ::std::os::raw::c_uint = 5;
-pub const MONO_METHOD_SIZE: ::std::os::raw::c_uint = 6;
+pub const MONO_METHOD_RVA: _bindgen_ty_25 = 0;
+pub const MONO_METHOD_IMPLFLAGS: _bindgen_ty_25 = 1;
+pub const MONO_METHOD_FLAGS: _bindgen_ty_25 = 2;
+pub const MONO_METHOD_NAME: _bindgen_ty_25 = 3;
+pub const MONO_METHOD_SIGNATURE: _bindgen_ty_25 = 4;
+pub const MONO_METHOD_PARAMLIST: _bindgen_ty_25 = 5;
+pub const MONO_METHOD_SIZE: _bindgen_ty_25 = 6;
 pub type _bindgen_ty_25 = ::std::os::raw::c_uint;
-pub const MONO_METHODIMPL_CLASS: ::std::os::raw::c_uint = 0;
-pub const MONO_METHODIMPL_BODY: ::std::os::raw::c_uint = 1;
-pub const MONO_METHODIMPL_DECLARATION: ::std::os::raw::c_uint = 2;
-pub const MONO_METHODIMPL_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_METHODIMPL_CLASS: _bindgen_ty_26 = 0;
+pub const MONO_METHODIMPL_BODY: _bindgen_ty_26 = 1;
+pub const MONO_METHODIMPL_DECLARATION: _bindgen_ty_26 = 2;
+pub const MONO_METHODIMPL_SIZE: _bindgen_ty_26 = 3;
 pub type _bindgen_ty_26 = ::std::os::raw::c_uint;
-pub const MONO_METHOD_POINTER_METHOD: ::std::os::raw::c_uint = 0;
-pub const MONO_METHOD_POINTER_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_METHOD_POINTER_METHOD: _bindgen_ty_27 = 0;
+pub const MONO_METHOD_POINTER_SIZE: _bindgen_ty_27 = 1;
 pub type _bindgen_ty_27 = ::std::os::raw::c_uint;
-pub const MONO_METHOD_SEMA_SEMANTICS: ::std::os::raw::c_uint = 0;
-pub const MONO_METHOD_SEMA_METHOD: ::std::os::raw::c_uint = 1;
-pub const MONO_METHOD_SEMA_ASSOCIATION: ::std::os::raw::c_uint = 2;
-pub const MONO_METHOD_SEMA_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_METHOD_SEMA_SEMANTICS: _bindgen_ty_28 = 0;
+pub const MONO_METHOD_SEMA_METHOD: _bindgen_ty_28 = 1;
+pub const MONO_METHOD_SEMA_ASSOCIATION: _bindgen_ty_28 = 2;
+pub const MONO_METHOD_SEMA_SIZE: _bindgen_ty_28 = 3;
 pub type _bindgen_ty_28 = ::std::os::raw::c_uint;
-pub const MONO_MODULE_GENERATION: ::std::os::raw::c_uint = 0;
-pub const MONO_MODULE_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_MODULE_MVID: ::std::os::raw::c_uint = 2;
-pub const MONO_MODULE_ENC: ::std::os::raw::c_uint = 3;
-pub const MONO_MODULE_ENCBASE: ::std::os::raw::c_uint = 4;
-pub const MONO_MODULE_SIZE: ::std::os::raw::c_uint = 5;
+pub const MONO_MODULE_GENERATION: _bindgen_ty_29 = 0;
+pub const MONO_MODULE_NAME: _bindgen_ty_29 = 1;
+pub const MONO_MODULE_MVID: _bindgen_ty_29 = 2;
+pub const MONO_MODULE_ENC: _bindgen_ty_29 = 3;
+pub const MONO_MODULE_ENCBASE: _bindgen_ty_29 = 4;
+pub const MONO_MODULE_SIZE: _bindgen_ty_29 = 5;
 pub type _bindgen_ty_29 = ::std::os::raw::c_uint;
-pub const MONO_MODULEREF_NAME: ::std::os::raw::c_uint = 0;
-pub const MONO_MODULEREF_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_MODULEREF_NAME: _bindgen_ty_30 = 0;
+pub const MONO_MODULEREF_SIZE: _bindgen_ty_30 = 1;
 pub type _bindgen_ty_30 = ::std::os::raw::c_uint;
-pub const MONO_NESTED_CLASS_NESTED: ::std::os::raw::c_uint = 0;
-pub const MONO_NESTED_CLASS_ENCLOSING: ::std::os::raw::c_uint = 1;
-pub const MONO_NESTED_CLASS_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_NESTED_CLASS_NESTED: _bindgen_ty_31 = 0;
+pub const MONO_NESTED_CLASS_ENCLOSING: _bindgen_ty_31 = 1;
+pub const MONO_NESTED_CLASS_SIZE: _bindgen_ty_31 = 2;
 pub type _bindgen_ty_31 = ::std::os::raw::c_uint;
-pub const MONO_PARAM_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_PARAM_SEQUENCE: ::std::os::raw::c_uint = 1;
-pub const MONO_PARAM_NAME: ::std::os::raw::c_uint = 2;
-pub const MONO_PARAM_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_PARAM_FLAGS: _bindgen_ty_32 = 0;
+pub const MONO_PARAM_SEQUENCE: _bindgen_ty_32 = 1;
+pub const MONO_PARAM_NAME: _bindgen_ty_32 = 2;
+pub const MONO_PARAM_SIZE: _bindgen_ty_32 = 3;
 pub type _bindgen_ty_32 = ::std::os::raw::c_uint;
-pub const MONO_PARAM_POINTER_PARAM: ::std::os::raw::c_uint = 0;
-pub const MONO_PARAM_POINTER_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_PARAM_POINTER_PARAM: _bindgen_ty_33 = 0;
+pub const MONO_PARAM_POINTER_SIZE: _bindgen_ty_33 = 1;
 pub type _bindgen_ty_33 = ::std::os::raw::c_uint;
-pub const MONO_PROPERTY_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_PROPERTY_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_PROPERTY_TYPE: ::std::os::raw::c_uint = 2;
-pub const MONO_PROPERTY_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_PROPERTY_FLAGS: _bindgen_ty_34 = 0;
+pub const MONO_PROPERTY_NAME: _bindgen_ty_34 = 1;
+pub const MONO_PROPERTY_TYPE: _bindgen_ty_34 = 2;
+pub const MONO_PROPERTY_SIZE: _bindgen_ty_34 = 3;
 pub type _bindgen_ty_34 = ::std::os::raw::c_uint;
-pub const MONO_PROPERTY_POINTER_PROPERTY: ::std::os::raw::c_uint = 0;
-pub const MONO_PROPERTY_POINTER_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_PROPERTY_POINTER_PROPERTY: _bindgen_ty_35 = 0;
+pub const MONO_PROPERTY_POINTER_SIZE: _bindgen_ty_35 = 1;
 pub type _bindgen_ty_35 = ::std::os::raw::c_uint;
-pub const MONO_PROPERTY_MAP_PARENT: ::std::os::raw::c_uint = 0;
-pub const MONO_PROPERTY_MAP_PROPERTY_LIST: ::std::os::raw::c_uint = 1;
-pub const MONO_PROPERTY_MAP_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_PROPERTY_MAP_PARENT: _bindgen_ty_36 = 0;
+pub const MONO_PROPERTY_MAP_PROPERTY_LIST: _bindgen_ty_36 = 1;
+pub const MONO_PROPERTY_MAP_SIZE: _bindgen_ty_36 = 2;
 pub type _bindgen_ty_36 = ::std::os::raw::c_uint;
-pub const MONO_STAND_ALONE_SIGNATURE: ::std::os::raw::c_uint = 0;
-pub const MONO_STAND_ALONE_SIGNATURE_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_STAND_ALONE_SIGNATURE: _bindgen_ty_37 = 0;
+pub const MONO_STAND_ALONE_SIGNATURE_SIZE: _bindgen_ty_37 = 1;
 pub type _bindgen_ty_37 = ::std::os::raw::c_uint;
-pub const MONO_TYPEDEF_FLAGS: ::std::os::raw::c_uint = 0;
-pub const MONO_TYPEDEF_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_TYPEDEF_NAMESPACE: ::std::os::raw::c_uint = 2;
-pub const MONO_TYPEDEF_EXTENDS: ::std::os::raw::c_uint = 3;
-pub const MONO_TYPEDEF_FIELD_LIST: ::std::os::raw::c_uint = 4;
-pub const MONO_TYPEDEF_METHOD_LIST: ::std::os::raw::c_uint = 5;
-pub const MONO_TYPEDEF_SIZE: ::std::os::raw::c_uint = 6;
+pub const MONO_TYPEDEF_FLAGS: _bindgen_ty_38 = 0;
+pub const MONO_TYPEDEF_NAME: _bindgen_ty_38 = 1;
+pub const MONO_TYPEDEF_NAMESPACE: _bindgen_ty_38 = 2;
+pub const MONO_TYPEDEF_EXTENDS: _bindgen_ty_38 = 3;
+pub const MONO_TYPEDEF_FIELD_LIST: _bindgen_ty_38 = 4;
+pub const MONO_TYPEDEF_METHOD_LIST: _bindgen_ty_38 = 5;
+pub const MONO_TYPEDEF_SIZE: _bindgen_ty_38 = 6;
 pub type _bindgen_ty_38 = ::std::os::raw::c_uint;
-pub const MONO_TYPEREF_SCOPE: ::std::os::raw::c_uint = 0;
-pub const MONO_TYPEREF_NAME: ::std::os::raw::c_uint = 1;
-pub const MONO_TYPEREF_NAMESPACE: ::std::os::raw::c_uint = 2;
-pub const MONO_TYPEREF_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_TYPEREF_SCOPE: _bindgen_ty_39 = 0;
+pub const MONO_TYPEREF_NAME: _bindgen_ty_39 = 1;
+pub const MONO_TYPEREF_NAMESPACE: _bindgen_ty_39 = 2;
+pub const MONO_TYPEREF_SIZE: _bindgen_ty_39 = 3;
 pub type _bindgen_ty_39 = ::std::os::raw::c_uint;
-pub const MONO_TYPESPEC_SIGNATURE: ::std::os::raw::c_uint = 0;
-pub const MONO_TYPESPEC_SIZE: ::std::os::raw::c_uint = 1;
+pub const MONO_TYPESPEC_SIGNATURE: _bindgen_ty_40 = 0;
+pub const MONO_TYPESPEC_SIZE: _bindgen_ty_40 = 1;
 pub type _bindgen_ty_40 = ::std::os::raw::c_uint;
-pub const MONO_GENERICPARAM_NUMBER: ::std::os::raw::c_uint = 0;
-pub const MONO_GENERICPARAM_FLAGS: ::std::os::raw::c_uint = 1;
-pub const MONO_GENERICPARAM_OWNER: ::std::os::raw::c_uint = 2;
-pub const MONO_GENERICPARAM_NAME: ::std::os::raw::c_uint = 3;
-pub const MONO_GENERICPARAM_SIZE: ::std::os::raw::c_uint = 4;
+pub const MONO_GENERICPARAM_NUMBER: _bindgen_ty_41 = 0;
+pub const MONO_GENERICPARAM_FLAGS: _bindgen_ty_41 = 1;
+pub const MONO_GENERICPARAM_OWNER: _bindgen_ty_41 = 2;
+pub const MONO_GENERICPARAM_NAME: _bindgen_ty_41 = 3;
+pub const MONO_GENERICPARAM_SIZE: _bindgen_ty_41 = 4;
 pub type _bindgen_ty_41 = ::std::os::raw::c_uint;
-pub const MONO_METHODSPEC_METHOD: ::std::os::raw::c_uint = 0;
-pub const MONO_METHODSPEC_SIGNATURE: ::std::os::raw::c_uint = 1;
-pub const MONO_METHODSPEC_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_METHODSPEC_METHOD: _bindgen_ty_42 = 0;
+pub const MONO_METHODSPEC_SIGNATURE: _bindgen_ty_42 = 1;
+pub const MONO_METHODSPEC_SIZE: _bindgen_ty_42 = 2;
 pub type _bindgen_ty_42 = ::std::os::raw::c_uint;
-pub const MONO_GENPARCONSTRAINT_GENERICPAR: ::std::os::raw::c_uint = 0;
-pub const MONO_GENPARCONSTRAINT_CONSTRAINT: ::std::os::raw::c_uint = 1;
-pub const MONO_GENPARCONSTRAINT_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_GENPARCONSTRAINT_GENERICPAR: _bindgen_ty_43 = 0;
+pub const MONO_GENPARCONSTRAINT_CONSTRAINT: _bindgen_ty_43 = 1;
+pub const MONO_GENPARCONSTRAINT_SIZE: _bindgen_ty_43 = 2;
 pub type _bindgen_ty_43 = ::std::os::raw::c_uint;
-pub const MONO_DOCUMENT_NAME: ::std::os::raw::c_uint = 0;
-pub const MONO_DOCUMENT_HASHALG: ::std::os::raw::c_uint = 1;
-pub const MONO_DOCUMENT_HASH: ::std::os::raw::c_uint = 2;
-pub const MONO_DOCUMENT_LANGUAGE: ::std::os::raw::c_uint = 3;
-pub const MONO_DOCUMENT_SIZE: ::std::os::raw::c_uint = 4;
+pub const MONO_DOCUMENT_NAME: _bindgen_ty_44 = 0;
+pub const MONO_DOCUMENT_HASHALG: _bindgen_ty_44 = 1;
+pub const MONO_DOCUMENT_HASH: _bindgen_ty_44 = 2;
+pub const MONO_DOCUMENT_LANGUAGE: _bindgen_ty_44 = 3;
+pub const MONO_DOCUMENT_SIZE: _bindgen_ty_44 = 4;
 pub type _bindgen_ty_44 = ::std::os::raw::c_uint;
-pub const MONO_METHODBODY_DOCUMENT: ::std::os::raw::c_uint = 0;
-pub const MONO_METHODBODY_SEQ_POINTS: ::std::os::raw::c_uint = 1;
-pub const MONO_METHODBODY_SIZE: ::std::os::raw::c_uint = 2;
+pub const MONO_METHODBODY_DOCUMENT: _bindgen_ty_45 = 0;
+pub const MONO_METHODBODY_SEQ_POINTS: _bindgen_ty_45 = 1;
+pub const MONO_METHODBODY_SIZE: _bindgen_ty_45 = 2;
 pub type _bindgen_ty_45 = ::std::os::raw::c_uint;
-pub const MONO_LOCALSCOPE_METHOD: ::std::os::raw::c_uint = 0;
-pub const MONO_LOCALSCOPE_IMPORTSCOPE: ::std::os::raw::c_uint = 1;
-pub const MONO_LOCALSCOPE_VARIABLELIST: ::std::os::raw::c_uint = 2;
-pub const MONO_LOCALSCOPE_CONSTANTLIST: ::std::os::raw::c_uint = 3;
-pub const MONO_LOCALSCOPE_STARTOFFSET: ::std::os::raw::c_uint = 4;
-pub const MONO_LOCALSCOPE_LENGTH: ::std::os::raw::c_uint = 5;
-pub const MONO_LOCALSCOPE_SIZE: ::std::os::raw::c_uint = 6;
+pub const MONO_LOCALSCOPE_METHOD: _bindgen_ty_46 = 0;
+pub const MONO_LOCALSCOPE_IMPORTSCOPE: _bindgen_ty_46 = 1;
+pub const MONO_LOCALSCOPE_VARIABLELIST: _bindgen_ty_46 = 2;
+pub const MONO_LOCALSCOPE_CONSTANTLIST: _bindgen_ty_46 = 3;
+pub const MONO_LOCALSCOPE_STARTOFFSET: _bindgen_ty_46 = 4;
+pub const MONO_LOCALSCOPE_LENGTH: _bindgen_ty_46 = 5;
+pub const MONO_LOCALSCOPE_SIZE: _bindgen_ty_46 = 6;
 pub type _bindgen_ty_46 = ::std::os::raw::c_uint;
-pub const MONO_LOCALVARIABLE_ATTRIBUTES: ::std::os::raw::c_uint = 0;
-pub const MONO_LOCALVARIABLE_INDEX: ::std::os::raw::c_uint = 1;
-pub const MONO_LOCALVARIABLE_NAME: ::std::os::raw::c_uint = 2;
-pub const MONO_LOCALVARIABLE_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_LOCALVARIABLE_ATTRIBUTES: _bindgen_ty_47 = 0;
+pub const MONO_LOCALVARIABLE_INDEX: _bindgen_ty_47 = 1;
+pub const MONO_LOCALVARIABLE_NAME: _bindgen_ty_47 = 2;
+pub const MONO_LOCALVARIABLE_SIZE: _bindgen_ty_47 = 3;
 pub type _bindgen_ty_47 = ::std::os::raw::c_uint;
-pub const MONO_CUSTOMDEBUGINFORMATION_PARENT: ::std::os::raw::c_uint = 0;
-pub const MONO_CUSTOMDEBUGINFORMATION_KIND: ::std::os::raw::c_uint = 1;
-pub const MONO_CUSTOMDEBUGINFORMATION_VALUE: ::std::os::raw::c_uint = 2;
-pub const MONO_CUSTOMDEBUGINFORMATION_SIZE: ::std::os::raw::c_uint = 3;
+pub const MONO_CUSTOMDEBUGINFORMATION_PARENT: _bindgen_ty_48 = 0;
+pub const MONO_CUSTOMDEBUGINFORMATION_KIND: _bindgen_ty_48 = 1;
+pub const MONO_CUSTOMDEBUGINFORMATION_VALUE: _bindgen_ty_48 = 2;
+pub const MONO_CUSTOMDEBUGINFORMATION_SIZE: _bindgen_ty_48 = 3;
 pub type _bindgen_ty_48 = ::std::os::raw::c_uint;
-pub const MONO_TYPEDEFORREF_TYPEDEF: ::std::os::raw::c_uint = 0;
-pub const MONO_TYPEDEFORREF_TYPEREF: ::std::os::raw::c_uint = 1;
-pub const MONO_TYPEDEFORREF_TYPESPEC: ::std::os::raw::c_uint = 2;
-pub const MONO_TYPEDEFORREF_BITS: ::std::os::raw::c_uint = 2;
-pub const MONO_TYPEDEFORREF_MASK: ::std::os::raw::c_uint = 3;
+pub const MONO_TYPEDEFORREF_TYPEDEF: _bindgen_ty_49 = 0;
+pub const MONO_TYPEDEFORREF_TYPEREF: _bindgen_ty_49 = 1;
+pub const MONO_TYPEDEFORREF_TYPESPEC: _bindgen_ty_49 = 2;
+pub const MONO_TYPEDEFORREF_BITS: _bindgen_ty_49 = 2;
+pub const MONO_TYPEDEFORREF_MASK: _bindgen_ty_49 = 3;
 pub type _bindgen_ty_49 = ::std::os::raw::c_uint;
-pub const MONO_HASCONSTANT_FIEDDEF: ::std::os::raw::c_uint = 0;
-pub const MONO_HASCONSTANT_PARAM: ::std::os::raw::c_uint = 1;
-pub const MONO_HASCONSTANT_PROPERTY: ::std::os::raw::c_uint = 2;
-pub const MONO_HASCONSTANT_BITS: ::std::os::raw::c_uint = 2;
-pub const MONO_HASCONSTANT_MASK: ::std::os::raw::c_uint = 3;
+pub const MONO_HASCONSTANT_FIEDDEF: _bindgen_ty_50 = 0;
+pub const MONO_HASCONSTANT_PARAM: _bindgen_ty_50 = 1;
+pub const MONO_HASCONSTANT_PROPERTY: _bindgen_ty_50 = 2;
+pub const MONO_HASCONSTANT_BITS: _bindgen_ty_50 = 2;
+pub const MONO_HASCONSTANT_MASK: _bindgen_ty_50 = 3;
 pub type _bindgen_ty_50 = ::std::os::raw::c_uint;
-pub const MONO_CUSTOM_ATTR_METHODDEF: ::std::os::raw::c_uint = 0;
-pub const MONO_CUSTOM_ATTR_FIELDDEF: ::std::os::raw::c_uint = 1;
-pub const MONO_CUSTOM_ATTR_TYPEREF: ::std::os::raw::c_uint = 2;
-pub const MONO_CUSTOM_ATTR_TYPEDEF: ::std::os::raw::c_uint = 3;
-pub const MONO_CUSTOM_ATTR_PARAMDEF: ::std::os::raw::c_uint = 4;
-pub const MONO_CUSTOM_ATTR_INTERFACE: ::std::os::raw::c_uint = 5;
-pub const MONO_CUSTOM_ATTR_MEMBERREF: ::std::os::raw::c_uint = 6;
-pub const MONO_CUSTOM_ATTR_MODULE: ::std::os::raw::c_uint = 7;
-pub const MONO_CUSTOM_ATTR_PERMISSION: ::std::os::raw::c_uint = 8;
-pub const MONO_CUSTOM_ATTR_PROPERTY: ::std::os::raw::c_uint = 9;
-pub const MONO_CUSTOM_ATTR_EVENT: ::std::os::raw::c_uint = 10;
-pub const MONO_CUSTOM_ATTR_SIGNATURE: ::std::os::raw::c_uint = 11;
-pub const MONO_CUSTOM_ATTR_MODULEREF: ::std::os::raw::c_uint = 12;
-pub const MONO_CUSTOM_ATTR_TYPESPEC: ::std::os::raw::c_uint = 13;
-pub const MONO_CUSTOM_ATTR_ASSEMBLY: ::std::os::raw::c_uint = 14;
-pub const MONO_CUSTOM_ATTR_ASSEMBLYREF: ::std::os::raw::c_uint = 15;
-pub const MONO_CUSTOM_ATTR_FILE: ::std::os::raw::c_uint = 16;
-pub const MONO_CUSTOM_ATTR_EXP_TYPE: ::std::os::raw::c_uint = 17;
-pub const MONO_CUSTOM_ATTR_MANIFEST: ::std::os::raw::c_uint = 18;
-pub const MONO_CUSTOM_ATTR_GENERICPAR: ::std::os::raw::c_uint = 19;
-pub const MONO_CUSTOM_ATTR_GENERICPARAMCONSTRAINT: ::std::os::raw::c_uint = 20;
-pub const MONO_CUSTOM_ATTR_BITS: ::std::os::raw::c_uint = 5;
-pub const MONO_CUSTOM_ATTR_MASK: ::std::os::raw::c_uint = 31;
+pub const MONO_CUSTOM_ATTR_METHODDEF: _bindgen_ty_51 = 0;
+pub const MONO_CUSTOM_ATTR_FIELDDEF: _bindgen_ty_51 = 1;
+pub const MONO_CUSTOM_ATTR_TYPEREF: _bindgen_ty_51 = 2;
+pub const MONO_CUSTOM_ATTR_TYPEDEF: _bindgen_ty_51 = 3;
+pub const MONO_CUSTOM_ATTR_PARAMDEF: _bindgen_ty_51 = 4;
+pub const MONO_CUSTOM_ATTR_INTERFACE: _bindgen_ty_51 = 5;
+pub const MONO_CUSTOM_ATTR_MEMBERREF: _bindgen_ty_51 = 6;
+pub const MONO_CUSTOM_ATTR_MODULE: _bindgen_ty_51 = 7;
+pub const MONO_CUSTOM_ATTR_PERMISSION: _bindgen_ty_51 = 8;
+pub const MONO_CUSTOM_ATTR_PROPERTY: _bindgen_ty_51 = 9;
+pub const MONO_CUSTOM_ATTR_EVENT: _bindgen_ty_51 = 10;
+pub const MONO_CUSTOM_ATTR_SIGNATURE: _bindgen_ty_51 = 11;
+pub const MONO_CUSTOM_ATTR_MODULEREF: _bindgen_ty_51 = 12;
+pub const MONO_CUSTOM_ATTR_TYPESPEC: _bindgen_ty_51 = 13;
+pub const MONO_CUSTOM_ATTR_ASSEMBLY: _bindgen_ty_51 = 14;
+pub const MONO_CUSTOM_ATTR_ASSEMBLYREF: _bindgen_ty_51 = 15;
+pub const MONO_CUSTOM_ATTR_FILE: _bindgen_ty_51 = 16;
+pub const MONO_CUSTOM_ATTR_EXP_TYPE: _bindgen_ty_51 = 17;
+pub const MONO_CUSTOM_ATTR_MANIFEST: _bindgen_ty_51 = 18;
+pub const MONO_CUSTOM_ATTR_GENERICPAR: _bindgen_ty_51 = 19;
+pub const MONO_CUSTOM_ATTR_GENERICPARAMCONSTRAINT: _bindgen_ty_51 = 20;
+pub const MONO_CUSTOM_ATTR_BITS: _bindgen_ty_51 = 5;
+pub const MONO_CUSTOM_ATTR_MASK: _bindgen_ty_51 = 31;
 pub type _bindgen_ty_51 = ::std::os::raw::c_uint;
-pub const MONO_HAS_FIELD_MARSHAL_FIELDSREF: ::std::os::raw::c_uint = 0;
-pub const MONO_HAS_FIELD_MARSHAL_PARAMDEF: ::std::os::raw::c_uint = 1;
-pub const MONO_HAS_FIELD_MARSHAL_BITS: ::std::os::raw::c_uint = 1;
-pub const MONO_HAS_FIELD_MARSHAL_MASK: ::std::os::raw::c_uint = 1;
+pub const MONO_HAS_FIELD_MARSHAL_FIELDSREF: _bindgen_ty_52 = 0;
+pub const MONO_HAS_FIELD_MARSHAL_PARAMDEF: _bindgen_ty_52 = 1;
+pub const MONO_HAS_FIELD_MARSHAL_BITS: _bindgen_ty_52 = 1;
+pub const MONO_HAS_FIELD_MARSHAL_MASK: _bindgen_ty_52 = 1;
 pub type _bindgen_ty_52 = ::std::os::raw::c_uint;
-pub const MONO_HAS_DECL_SECURITY_TYPEDEF: ::std::os::raw::c_uint = 0;
-pub const MONO_HAS_DECL_SECURITY_METHODDEF: ::std::os::raw::c_uint = 1;
-pub const MONO_HAS_DECL_SECURITY_ASSEMBLY: ::std::os::raw::c_uint = 2;
-pub const MONO_HAS_DECL_SECURITY_BITS: ::std::os::raw::c_uint = 2;
-pub const MONO_HAS_DECL_SECURITY_MASK: ::std::os::raw::c_uint = 3;
+pub const MONO_HAS_DECL_SECURITY_TYPEDEF: _bindgen_ty_53 = 0;
+pub const MONO_HAS_DECL_SECURITY_METHODDEF: _bindgen_ty_53 = 1;
+pub const MONO_HAS_DECL_SECURITY_ASSEMBLY: _bindgen_ty_53 = 2;
+pub const MONO_HAS_DECL_SECURITY_BITS: _bindgen_ty_53 = 2;
+pub const MONO_HAS_DECL_SECURITY_MASK: _bindgen_ty_53 = 3;
 pub type _bindgen_ty_53 = ::std::os::raw::c_uint;
-pub const MONO_MEMBERREF_PARENT_TYPEDEF: ::std::os::raw::c_uint = 0;
-pub const MONO_MEMBERREF_PARENT_TYPEREF: ::std::os::raw::c_uint = 1;
-pub const MONO_MEMBERREF_PARENT_MODULEREF: ::std::os::raw::c_uint = 2;
-pub const MONO_MEMBERREF_PARENT_METHODDEF: ::std::os::raw::c_uint = 3;
-pub const MONO_MEMBERREF_PARENT_TYPESPEC: ::std::os::raw::c_uint = 4;
-pub const MONO_MEMBERREF_PARENT_BITS: ::std::os::raw::c_uint = 3;
-pub const MONO_MEMBERREF_PARENT_MASK: ::std::os::raw::c_uint = 7;
+pub const MONO_MEMBERREF_PARENT_TYPEDEF: _bindgen_ty_54 = 0;
+pub const MONO_MEMBERREF_PARENT_TYPEREF: _bindgen_ty_54 = 1;
+pub const MONO_MEMBERREF_PARENT_MODULEREF: _bindgen_ty_54 = 2;
+pub const MONO_MEMBERREF_PARENT_METHODDEF: _bindgen_ty_54 = 3;
+pub const MONO_MEMBERREF_PARENT_TYPESPEC: _bindgen_ty_54 = 4;
+pub const MONO_MEMBERREF_PARENT_BITS: _bindgen_ty_54 = 3;
+pub const MONO_MEMBERREF_PARENT_MASK: _bindgen_ty_54 = 7;
 pub type _bindgen_ty_54 = ::std::os::raw::c_uint;
-pub const MONO_HAS_SEMANTICS_EVENT: ::std::os::raw::c_uint = 0;
-pub const MONO_HAS_SEMANTICS_PROPERTY: ::std::os::raw::c_uint = 1;
-pub const MONO_HAS_SEMANTICS_BITS: ::std::os::raw::c_uint = 1;
-pub const MONO_HAS_SEMANTICS_MASK: ::std::os::raw::c_uint = 1;
+pub const MONO_HAS_SEMANTICS_EVENT: _bindgen_ty_55 = 0;
+pub const MONO_HAS_SEMANTICS_PROPERTY: _bindgen_ty_55 = 1;
+pub const MONO_HAS_SEMANTICS_BITS: _bindgen_ty_55 = 1;
+pub const MONO_HAS_SEMANTICS_MASK: _bindgen_ty_55 = 1;
 pub type _bindgen_ty_55 = ::std::os::raw::c_uint;
-pub const MONO_METHODDEFORREF_METHODDEF: ::std::os::raw::c_uint = 0;
-pub const MONO_METHODDEFORREF_METHODREF: ::std::os::raw::c_uint = 1;
-pub const MONO_METHODDEFORREF_BITS: ::std::os::raw::c_uint = 1;
-pub const MONO_METHODDEFORREF_MASK: ::std::os::raw::c_uint = 1;
+pub const MONO_METHODDEFORREF_METHODDEF: _bindgen_ty_56 = 0;
+pub const MONO_METHODDEFORREF_METHODREF: _bindgen_ty_56 = 1;
+pub const MONO_METHODDEFORREF_BITS: _bindgen_ty_56 = 1;
+pub const MONO_METHODDEFORREF_MASK: _bindgen_ty_56 = 1;
 pub type _bindgen_ty_56 = ::std::os::raw::c_uint;
-pub const MONO_MEMBERFORWD_FIELDDEF: ::std::os::raw::c_uint = 0;
-pub const MONO_MEMBERFORWD_METHODDEF: ::std::os::raw::c_uint = 1;
-pub const MONO_MEMBERFORWD_BITS: ::std::os::raw::c_uint = 1;
-pub const MONO_MEMBERFORWD_MASK: ::std::os::raw::c_uint = 1;
+pub const MONO_MEMBERFORWD_FIELDDEF: _bindgen_ty_57 = 0;
+pub const MONO_MEMBERFORWD_METHODDEF: _bindgen_ty_57 = 1;
+pub const MONO_MEMBERFORWD_BITS: _bindgen_ty_57 = 1;
+pub const MONO_MEMBERFORWD_MASK: _bindgen_ty_57 = 1;
 pub type _bindgen_ty_57 = ::std::os::raw::c_uint;
-pub const MONO_IMPLEMENTATION_FILE: ::std::os::raw::c_uint = 0;
-pub const MONO_IMPLEMENTATION_ASSEMBLYREF: ::std::os::raw::c_uint = 1;
-pub const MONO_IMPLEMENTATION_EXP_TYPE: ::std::os::raw::c_uint = 2;
-pub const MONO_IMPLEMENTATION_BITS: ::std::os::raw::c_uint = 2;
-pub const MONO_IMPLEMENTATION_MASK: ::std::os::raw::c_uint = 3;
+pub const MONO_IMPLEMENTATION_FILE: _bindgen_ty_58 = 0;
+pub const MONO_IMPLEMENTATION_ASSEMBLYREF: _bindgen_ty_58 = 1;
+pub const MONO_IMPLEMENTATION_EXP_TYPE: _bindgen_ty_58 = 2;
+pub const MONO_IMPLEMENTATION_BITS: _bindgen_ty_58 = 2;
+pub const MONO_IMPLEMENTATION_MASK: _bindgen_ty_58 = 3;
 pub type _bindgen_ty_58 = ::std::os::raw::c_uint;
-pub const MONO_CUSTOM_ATTR_TYPE_TYPEREF: ::std::os::raw::c_uint = 0;
-pub const MONO_CUSTOM_ATTR_TYPE_TYPEDEF: ::std::os::raw::c_uint = 1;
-pub const MONO_CUSTOM_ATTR_TYPE_METHODDEF: ::std::os::raw::c_uint = 2;
-pub const MONO_CUSTOM_ATTR_TYPE_MEMBERREF: ::std::os::raw::c_uint = 3;
-pub const MONO_CUSTOM_ATTR_TYPE_STRING: ::std::os::raw::c_uint = 4;
-pub const MONO_CUSTOM_ATTR_TYPE_BITS: ::std::os::raw::c_uint = 3;
-pub const MONO_CUSTOM_ATTR_TYPE_MASK: ::std::os::raw::c_uint = 7;
+pub const MONO_CUSTOM_ATTR_TYPE_TYPEREF: _bindgen_ty_59 = 0;
+pub const MONO_CUSTOM_ATTR_TYPE_TYPEDEF: _bindgen_ty_59 = 1;
+pub const MONO_CUSTOM_ATTR_TYPE_METHODDEF: _bindgen_ty_59 = 2;
+pub const MONO_CUSTOM_ATTR_TYPE_MEMBERREF: _bindgen_ty_59 = 3;
+pub const MONO_CUSTOM_ATTR_TYPE_STRING: _bindgen_ty_59 = 4;
+pub const MONO_CUSTOM_ATTR_TYPE_BITS: _bindgen_ty_59 = 3;
+pub const MONO_CUSTOM_ATTR_TYPE_MASK: _bindgen_ty_59 = 7;
 pub type _bindgen_ty_59 = ::std::os::raw::c_uint;
-pub const MONO_RESOLUTION_SCOPE_MODULE: ::std::os::raw::c_uint = 0;
-pub const MONO_RESOLUTION_SCOPE_MODULEREF: ::std::os::raw::c_uint = 1;
-pub const MONO_RESOLUTION_SCOPE_ASSEMBLYREF: ::std::os::raw::c_uint = 2;
-pub const MONO_RESOLUTION_SCOPE_TYPEREF: ::std::os::raw::c_uint = 3;
-pub const MONO_RESOLUTION_SCOPE_BITS: ::std::os::raw::c_uint = 2;
-pub const MONO_RESOLUTION_SCOPE_MASK: ::std::os::raw::c_uint = 3;
+pub const MONO_RESOLUTION_SCOPE_MODULE: _bindgen_ty_60 = 0;
+pub const MONO_RESOLUTION_SCOPE_MODULEREF: _bindgen_ty_60 = 1;
+pub const MONO_RESOLUTION_SCOPE_ASSEMBLYREF: _bindgen_ty_60 = 2;
+pub const MONO_RESOLUTION_SCOPE_TYPEREF: _bindgen_ty_60 = 3;
+pub const MONO_RESOLUTION_SCOPE_BITS: _bindgen_ty_60 = 2;
+pub const MONO_RESOLUTION_SCOPE_MASK: _bindgen_ty_60 = 3;
 pub type _bindgen_ty_60 = ::std::os::raw::c_uint;
-pub const MONO_RESOLTION_SCOPE_MODULE: ::std::os::raw::c_uint = 0;
-pub const MONO_RESOLTION_SCOPE_MODULEREF: ::std::os::raw::c_uint = 1;
-pub const MONO_RESOLTION_SCOPE_ASSEMBLYREF: ::std::os::raw::c_uint = 2;
-pub const MONO_RESOLTION_SCOPE_TYPEREF: ::std::os::raw::c_uint = 3;
-pub const MONO_RESOLTION_SCOPE_BITS: ::std::os::raw::c_uint = 2;
-pub const MONO_RESOLTION_SCOPE_MASK: ::std::os::raw::c_uint = 3;
+pub const MONO_RESOLTION_SCOPE_MODULE: _bindgen_ty_61 = 0;
+pub const MONO_RESOLTION_SCOPE_MODULEREF: _bindgen_ty_61 = 1;
+pub const MONO_RESOLTION_SCOPE_ASSEMBLYREF: _bindgen_ty_61 = 2;
+pub const MONO_RESOLTION_SCOPE_TYPEREF: _bindgen_ty_61 = 3;
+pub const MONO_RESOLTION_SCOPE_BITS: _bindgen_ty_61 = 2;
+pub const MONO_RESOLTION_SCOPE_MASK: _bindgen_ty_61 = 3;
 pub type _bindgen_ty_61 = ::std::os::raw::c_uint;
-pub const MONO_TYPEORMETHOD_TYPE: ::std::os::raw::c_uint = 0;
-pub const MONO_TYPEORMETHOD_METHOD: ::std::os::raw::c_uint = 1;
-pub const MONO_TYPEORMETHOD_BITS: ::std::os::raw::c_uint = 1;
-pub const MONO_TYPEORMETHOD_MASK: ::std::os::raw::c_uint = 1;
+pub const MONO_TYPEORMETHOD_TYPE: _bindgen_ty_62 = 0;
+pub const MONO_TYPEORMETHOD_METHOD: _bindgen_ty_62 = 1;
+pub const MONO_TYPEORMETHOD_BITS: _bindgen_ty_62 = 1;
+pub const MONO_TYPEORMETHOD_MASK: _bindgen_ty_62 = 1;
 pub type _bindgen_ty_62 = ::std::os::raw::c_uint;
 pub type va_list = __builtin_va_list;
 pub type __gnuc_va_list = __builtin_va_list;
@@ -3034,28 +3550,40 @@ fn bindgen_test_layout___mbstate_t__bindgen_ty_1() {
         4usize,
         concat!("Alignment of ", stringify!(__mbstate_t__bindgen_ty_1))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__mbstate_t__bindgen_ty_1>())).__wch as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__mbstate_t__bindgen_ty_1),
-            "::",
-            stringify!(__wch)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<__mbstate_t__bindgen_ty_1>())).__wchb as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__mbstate_t__bindgen_ty_1),
-            "::",
-            stringify!(__wchb)
-        )
-    );
+    fn test_field___wch() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__mbstate_t__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__wch) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__mbstate_t__bindgen_ty_1),
+                "::",
+                stringify!(__wch)
+            )
+        );
+    }
+    test_field___wch();
+    fn test_field___wchb() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__mbstate_t__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__wchb) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__mbstate_t__bindgen_ty_1),
+                "::",
+                stringify!(__wchb)
+            )
+        );
+    }
+    test_field___wchb();
 }
 #[test]
 fn bindgen_test_layout___mbstate_t() {
@@ -3069,26 +3597,40 @@ fn bindgen_test_layout___mbstate_t() {
         4usize,
         concat!("Alignment of ", stringify!(__mbstate_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__mbstate_t>())).__count as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__mbstate_t),
-            "::",
-            stringify!(__count)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__mbstate_t>())).__value as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__mbstate_t),
-            "::",
-            stringify!(__value)
-        )
-    );
+    fn test_field___count() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__mbstate_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__count) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__mbstate_t),
+                "::",
+                stringify!(__count)
+            )
+        );
+    }
+    test_field___count();
+    fn test_field___value() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__mbstate_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__value) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__mbstate_t),
+                "::",
+                stringify!(__value)
+            )
+        );
+    }
+    test_field___value();
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3108,26 +3650,40 @@ fn bindgen_test_layout__G_fpos_t() {
         8usize,
         concat!("Alignment of ", stringify!(_G_fpos_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_G_fpos_t>())).__pos as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_G_fpos_t),
-            "::",
-            stringify!(__pos)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_G_fpos_t>())).__state as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_G_fpos_t),
-            "::",
-            stringify!(__state)
-        )
-    );
+    fn test_field___pos() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_G_fpos_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__pos) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_G_fpos_t),
+                "::",
+                stringify!(__pos)
+            )
+        );
+    }
+    test_field___pos();
+    fn test_field___state() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_G_fpos_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__state) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_G_fpos_t),
+                "::",
+                stringify!(__state)
+            )
+        );
+    }
+    test_field___state();
 }
 pub type __fpos_t = _G_fpos_t;
 #[repr(C)]
@@ -3148,26 +3704,40 @@ fn bindgen_test_layout__G_fpos64_t() {
         8usize,
         concat!("Alignment of ", stringify!(_G_fpos64_t))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_G_fpos64_t>())).__pos as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_G_fpos64_t),
-            "::",
-            stringify!(__pos)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_G_fpos64_t>())).__state as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_G_fpos64_t),
-            "::",
-            stringify!(__state)
-        )
-    );
+    fn test_field___pos() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_G_fpos64_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__pos) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_G_fpos64_t),
+                "::",
+                stringify!(__pos)
+            )
+        );
+    }
+    test_field___pos();
+    fn test_field___state() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_G_fpos64_t>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__state) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_G_fpos64_t),
+                "::",
+                stringify!(__state)
+            )
+        );
+    }
+    test_field___state();
 }
 pub type __fpos64_t = _G_fpos64_t;
 pub type __FILE = _IO_FILE;
@@ -3233,296 +3803,499 @@ fn bindgen_test_layout__IO_FILE() {
         8usize,
         concat!("Alignment of ", stringify!(_IO_FILE))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._flags as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_flags)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_read_ptr as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_read_ptr)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_read_end as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_read_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_read_base as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_read_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_write_base as *const _ as usize },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_write_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_write_ptr as *const _ as usize },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_write_ptr)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_write_end as *const _ as usize },
-        48usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_write_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_buf_base as *const _ as usize },
-        56usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_buf_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_buf_end as *const _ as usize },
-        64usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_buf_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_save_base as *const _ as usize },
-        72usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_save_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_backup_base as *const _ as usize },
-        80usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_backup_base)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._IO_save_end as *const _ as usize },
-        88usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_IO_save_end)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._markers as *const _ as usize },
-        96usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_markers)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._chain as *const _ as usize },
-        104usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_chain)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._fileno as *const _ as usize },
-        112usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_fileno)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._flags2 as *const _ as usize },
-        116usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_flags2)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._old_offset as *const _ as usize },
-        120usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_old_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._cur_column as *const _ as usize },
-        128usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_cur_column)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._vtable_offset as *const _ as usize },
-        130usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_vtable_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._shortbuf as *const _ as usize },
-        131usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_shortbuf)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._lock as *const _ as usize },
-        136usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_lock)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._offset as *const _ as usize },
-        144usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._codecvt as *const _ as usize },
-        152usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_codecvt)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._wide_data as *const _ as usize },
-        160usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_wide_data)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._freeres_list as *const _ as usize },
-        168usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_freeres_list)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._freeres_buf as *const _ as usize },
-        176usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_freeres_buf)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>())).__pad5 as *const _ as usize },
-        184usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(__pad5)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._mode as *const _ as usize },
-        192usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_mode)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_IO_FILE>()))._unused2 as *const _ as usize },
-        196usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_IO_FILE),
-            "::",
-            stringify!(_unused2)
-        )
-    );
+    fn test_field__flags() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._flags) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_flags)
+            )
+        );
+    }
+    test_field__flags();
+    fn test_field__IO_read_ptr() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_read_ptr) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_read_ptr)
+            )
+        );
+    }
+    test_field__IO_read_ptr();
+    fn test_field__IO_read_end() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_read_end) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_read_end)
+            )
+        );
+    }
+    test_field__IO_read_end();
+    fn test_field__IO_read_base() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_read_base) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_read_base)
+            )
+        );
+    }
+    test_field__IO_read_base();
+    fn test_field__IO_write_base() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_write_base) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_write_base)
+            )
+        );
+    }
+    test_field__IO_write_base();
+    fn test_field__IO_write_ptr() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_write_ptr) as usize - ptr as usize
+            },
+            40usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_write_ptr)
+            )
+        );
+    }
+    test_field__IO_write_ptr();
+    fn test_field__IO_write_end() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_write_end) as usize - ptr as usize
+            },
+            48usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_write_end)
+            )
+        );
+    }
+    test_field__IO_write_end();
+    fn test_field__IO_buf_base() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_buf_base) as usize - ptr as usize
+            },
+            56usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_buf_base)
+            )
+        );
+    }
+    test_field__IO_buf_base();
+    fn test_field__IO_buf_end() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_buf_end) as usize - ptr as usize
+            },
+            64usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_buf_end)
+            )
+        );
+    }
+    test_field__IO_buf_end();
+    fn test_field__IO_save_base() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_save_base) as usize - ptr as usize
+            },
+            72usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_save_base)
+            )
+        );
+    }
+    test_field__IO_save_base();
+    fn test_field__IO_backup_base() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_backup_base) as usize - ptr as usize
+            },
+            80usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_backup_base)
+            )
+        );
+    }
+    test_field__IO_backup_base();
+    fn test_field__IO_save_end() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._IO_save_end) as usize - ptr as usize
+            },
+            88usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_IO_save_end)
+            )
+        );
+    }
+    test_field__IO_save_end();
+    fn test_field__markers() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._markers) as usize - ptr as usize
+            },
+            96usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_markers)
+            )
+        );
+    }
+    test_field__markers();
+    fn test_field__chain() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._chain) as usize - ptr as usize
+            },
+            104usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_chain)
+            )
+        );
+    }
+    test_field__chain();
+    fn test_field__fileno() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._fileno) as usize - ptr as usize
+            },
+            112usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_fileno)
+            )
+        );
+    }
+    test_field__fileno();
+    fn test_field__flags2() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._flags2) as usize - ptr as usize
+            },
+            116usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_flags2)
+            )
+        );
+    }
+    test_field__flags2();
+    fn test_field__old_offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._old_offset) as usize - ptr as usize
+            },
+            120usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_old_offset)
+            )
+        );
+    }
+    test_field__old_offset();
+    fn test_field__cur_column() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._cur_column) as usize - ptr as usize
+            },
+            128usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_cur_column)
+            )
+        );
+    }
+    test_field__cur_column();
+    fn test_field__vtable_offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._vtable_offset) as usize - ptr as usize
+            },
+            130usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_vtable_offset)
+            )
+        );
+    }
+    test_field__vtable_offset();
+    fn test_field__shortbuf() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._shortbuf) as usize - ptr as usize
+            },
+            131usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_shortbuf)
+            )
+        );
+    }
+    test_field__shortbuf();
+    fn test_field__lock() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._lock) as usize - ptr as usize
+            },
+            136usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_lock)
+            )
+        );
+    }
+    test_field__lock();
+    fn test_field__offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._offset) as usize - ptr as usize
+            },
+            144usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_offset)
+            )
+        );
+    }
+    test_field__offset();
+    fn test_field__codecvt() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._codecvt) as usize - ptr as usize
+            },
+            152usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_codecvt)
+            )
+        );
+    }
+    test_field__codecvt();
+    fn test_field__wide_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._wide_data) as usize - ptr as usize
+            },
+            160usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_wide_data)
+            )
+        );
+    }
+    test_field__wide_data();
+    fn test_field__freeres_list() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._freeres_list) as usize - ptr as usize
+            },
+            168usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_freeres_list)
+            )
+        );
+    }
+    test_field__freeres_list();
+    fn test_field__freeres_buf() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._freeres_buf) as usize - ptr as usize
+            },
+            176usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_freeres_buf)
+            )
+        );
+    }
+    test_field__freeres_buf();
+    fn test_field___pad5() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).__pad5) as usize - ptr as usize
+            },
+            184usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(__pad5)
+            )
+        );
+    }
+    test_field___pad5();
+    fn test_field__mode() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._mode) as usize - ptr as usize
+            },
+            192usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_mode)
+            )
+        );
+    }
+    test_field__mode();
+    fn test_field__unused2() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_IO_FILE>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr)._unused2) as usize - ptr as usize
+            },
+            196usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_IO_FILE),
+                "::",
+                stringify!(_unused2)
+            )
+        );
+    }
+    test_field__unused2();
 }
 pub type fpos_t = __fpos_t;
 extern "C" {
@@ -3552,10 +4325,13 @@ extern "C" {
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
+    pub fn fclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
+}
+extern "C" {
     pub fn tmpfile() -> *mut FILE;
 }
 extern "C" {
-    pub fn tmpnam(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn tmpnam(arg1: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn tmpnam_r(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
@@ -3565,9 +4341,6 @@ extern "C" {
         __dir: *const ::std::os::raw::c_char,
         __pfx: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn fclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn fflush(__stream: *mut FILE) -> ::std::os::raw::c_int;
@@ -3940,13 +4713,13 @@ extern "C" {
     pub fn fileno_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
 }
 extern "C" {
+    pub fn pclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
+}
+extern "C" {
     pub fn popen(
         __command: *const ::std::os::raw::c_char,
         __modes: *const ::std::os::raw::c_char,
     ) -> *mut FILE;
-}
-extern "C" {
-    pub fn pclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn ctermid(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
@@ -3966,26 +4739,26 @@ extern "C" {
 extern "C" {
     pub fn __overflow(arg1: *mut FILE, arg2: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
 }
-pub const MONO_ERROR_FREE_STRINGS: ::std::os::raw::c_uint = 1;
-pub const MONO_ERROR_INCOMPLETE: ::std::os::raw::c_uint = 2;
-pub const MONO_ERROR_MEMPOOL_BOXED: ::std::os::raw::c_uint = 4;
+pub const MONO_ERROR_FREE_STRINGS: _bindgen_ty_63 = 1;
+pub const MONO_ERROR_INCOMPLETE: _bindgen_ty_63 = 2;
+pub const MONO_ERROR_MEMPOOL_BOXED: _bindgen_ty_63 = 4;
 pub type _bindgen_ty_63 = ::std::os::raw::c_uint;
-pub const MONO_ERROR_NONE: ::std::os::raw::c_uint = 0;
-pub const MONO_ERROR_MISSING_METHOD: ::std::os::raw::c_uint = 1;
-pub const MONO_ERROR_MISSING_FIELD: ::std::os::raw::c_uint = 2;
-pub const MONO_ERROR_TYPE_LOAD: ::std::os::raw::c_uint = 3;
-pub const MONO_ERROR_FILE_NOT_FOUND: ::std::os::raw::c_uint = 4;
-pub const MONO_ERROR_BAD_IMAGE: ::std::os::raw::c_uint = 5;
-pub const MONO_ERROR_OUT_OF_MEMORY: ::std::os::raw::c_uint = 6;
-pub const MONO_ERROR_ARGUMENT: ::std::os::raw::c_uint = 7;
-pub const MONO_ERROR_ARGUMENT_NULL: ::std::os::raw::c_uint = 11;
-pub const MONO_ERROR_ARGUMENT_OUT_OF_RANGE: ::std::os::raw::c_uint = 14;
-pub const MONO_ERROR_NOT_VERIFIABLE: ::std::os::raw::c_uint = 8;
-pub const MONO_ERROR_INVALID_PROGRAM: ::std::os::raw::c_uint = 12;
-pub const MONO_ERROR_MEMBER_ACCESS: ::std::os::raw::c_uint = 13;
-pub const MONO_ERROR_GENERIC: ::std::os::raw::c_uint = 9;
-pub const MONO_ERROR_EXCEPTION_INSTANCE: ::std::os::raw::c_uint = 10;
-pub const MONO_ERROR_CLEANUP_CALLED_SENTINEL: ::std::os::raw::c_uint = 65535;
+pub const MONO_ERROR_NONE: _bindgen_ty_64 = 0;
+pub const MONO_ERROR_MISSING_METHOD: _bindgen_ty_64 = 1;
+pub const MONO_ERROR_MISSING_FIELD: _bindgen_ty_64 = 2;
+pub const MONO_ERROR_TYPE_LOAD: _bindgen_ty_64 = 3;
+pub const MONO_ERROR_FILE_NOT_FOUND: _bindgen_ty_64 = 4;
+pub const MONO_ERROR_BAD_IMAGE: _bindgen_ty_64 = 5;
+pub const MONO_ERROR_OUT_OF_MEMORY: _bindgen_ty_64 = 6;
+pub const MONO_ERROR_ARGUMENT: _bindgen_ty_64 = 7;
+pub const MONO_ERROR_ARGUMENT_NULL: _bindgen_ty_64 = 11;
+pub const MONO_ERROR_ARGUMENT_OUT_OF_RANGE: _bindgen_ty_64 = 14;
+pub const MONO_ERROR_NOT_VERIFIABLE: _bindgen_ty_64 = 8;
+pub const MONO_ERROR_INVALID_PROGRAM: _bindgen_ty_64 = 12;
+pub const MONO_ERROR_MEMBER_ACCESS: _bindgen_ty_64 = 13;
+pub const MONO_ERROR_GENERIC: _bindgen_ty_64 = 9;
+pub const MONO_ERROR_EXCEPTION_INSTANCE: _bindgen_ty_64 = 10;
+pub const MONO_ERROR_CLEANUP_CALLED_SENTINEL: _bindgen_ty_64 = 65535;
 pub type _bindgen_ty_64 = ::std::os::raw::c_uint;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4012,42 +4785,57 @@ fn bindgen_test_layout__MonoError__bindgen_ty_1() {
         8usize,
         concat!("Alignment of ", stringify!(_MonoError__bindgen_ty_1))
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_MonoError__bindgen_ty_1>())).error_code as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoError__bindgen_ty_1),
-            "::",
-            stringify!(error_code)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_MonoError__bindgen_ty_1>())).private_flags as *const _ as usize
-        },
-        2usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoError__bindgen_ty_1),
-            "::",
-            stringify!(private_flags)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_MonoError__bindgen_ty_1>())).hidden_1 as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoError__bindgen_ty_1),
-            "::",
-            stringify!(hidden_1)
-        )
-    );
+    fn test_field_error_code() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoError__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).error_code) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoError__bindgen_ty_1),
+                "::",
+                stringify!(error_code)
+            )
+        );
+    }
+    test_field_error_code();
+    fn test_field_private_flags() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoError__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).private_flags) as usize - ptr as usize
+            },
+            2usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoError__bindgen_ty_1),
+                "::",
+                stringify!(private_flags)
+            )
+        );
+    }
+    test_field_private_flags();
+    fn test_field_hidden_1() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoError__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).hidden_1) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoError__bindgen_ty_1),
+                "::",
+                stringify!(hidden_1)
+            )
+        );
+    }
+    test_field_hidden_1();
 }
 #[test]
 fn bindgen_test_layout__MonoError() {
@@ -4061,16 +4849,23 @@ fn bindgen_test_layout__MonoError() {
         8usize,
         concat!("Alignment of ", stringify!(_MonoError))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoError>())).init as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoError),
-            "::",
-            stringify!(init)
-        )
-    );
+    fn test_field_init() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoError>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).init) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoError),
+                "::",
+                stringify!(init)
+            )
+        );
+    }
+    test_field_init();
 }
 pub type MonoErrorExternal = _MonoError;
 pub type MonoError = MonoErrorExternal;
@@ -4482,58 +5277,82 @@ fn bindgen_test_layout_MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1() {
             stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1)
         )
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>())).elem_type
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
-            "::",
-            stringify!(elem_type)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>())).num_elem
-                as *const _ as usize
-        },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
-            "::",
-            stringify!(num_elem)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>())).param_num
-                as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
-            "::",
-            stringify!(param_num)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>())).elem_mult
-                as *const _ as usize
-        },
-        10usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
-            "::",
-            stringify!(elem_mult)
-        )
-    );
+    fn test_field_elem_type() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).elem_type) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
+                "::",
+                stringify!(elem_type)
+            )
+        );
+    }
+    test_field_elem_type();
+    fn test_field_num_elem() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).num_elem) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
+                "::",
+                stringify!(num_elem)
+            )
+        );
+    }
+    test_field_num_elem();
+    fn test_field_param_num() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).param_num) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
+                "::",
+                stringify!(param_num)
+            )
+        );
+    }
+    test_field_param_num();
+    fn test_field_elem_mult() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).elem_mult) as usize - ptr as usize
+            },
+            10usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_1),
+                "::",
+                stringify!(elem_mult)
+            )
+        );
+    }
+    test_field_elem_mult();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -4560,45 +5379,63 @@ fn bindgen_test_layout_MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2() {
             stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2)
         )
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2>())).custom_name
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2),
-            "::",
-            stringify!(custom_name)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2>())).cookie
-                as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2),
-            "::",
-            stringify!(cookie)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2>())).image
-                as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2),
-            "::",
-            stringify!(image)
-        )
-    );
+    fn test_field_custom_name() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).custom_name) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2),
+                "::",
+                stringify!(custom_name)
+            )
+        );
+    }
+    test_field_custom_name();
+    fn test_field_cookie() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).cookie) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2),
+                "::",
+                stringify!(cookie)
+            )
+        );
+    }
+    test_field_cookie();
+    fn test_field_image() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).image) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_2),
+                "::",
+                stringify!(image)
+            )
+        );
+    }
+    test_field_image();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -4624,32 +5461,44 @@ fn bindgen_test_layout_MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3() {
             stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3)
         )
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3>())).elem_type
-                as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3),
-            "::",
-            stringify!(elem_type)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3>())).num_elem
-                as *const _ as usize
-        },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3),
-            "::",
-            stringify!(num_elem)
-        )
-    );
+    fn test_field_elem_type() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).elem_type) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3),
+                "::",
+                stringify!(elem_type)
+            )
+        );
+    }
+    test_field_elem_type();
+    fn test_field_num_elem() {
+        assert_eq!(
+            unsafe {
+                let uninit =
+                    ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3>::uninit(
+                    );
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).num_elem) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1__bindgen_ty_3),
+                "::",
+                stringify!(num_elem)
+            )
+        );
+    }
+    test_field_num_elem();
 }
 #[test]
 fn bindgen_test_layout_MonoMarshalSpec__bindgen_ty_1() {
@@ -4663,45 +5512,57 @@ fn bindgen_test_layout_MonoMarshalSpec__bindgen_ty_1() {
         8usize,
         concat!("Alignment of ", stringify!(MonoMarshalSpec__bindgen_ty_1))
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1>())).array_data as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1),
-            "::",
-            stringify!(array_data)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1>())).custom_data as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1),
-            "::",
-            stringify!(custom_data)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoMarshalSpec__bindgen_ty_1>())).safearray_data as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec__bindgen_ty_1),
-            "::",
-            stringify!(safearray_data)
-        )
-    );
+    fn test_field_array_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).array_data) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1),
+                "::",
+                stringify!(array_data)
+            )
+        );
+    }
+    test_field_array_data();
+    fn test_field_custom_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).custom_data) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1),
+                "::",
+                stringify!(custom_data)
+            )
+        );
+    }
+    test_field_custom_data();
+    fn test_field_safearray_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoMarshalSpec__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).safearray_data) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec__bindgen_ty_1),
+                "::",
+                stringify!(safearray_data)
+            )
+        );
+    }
+    test_field_safearray_data();
 }
 #[test]
 fn bindgen_test_layout_MonoMarshalSpec() {
@@ -4715,26 +5576,40 @@ fn bindgen_test_layout_MonoMarshalSpec() {
         8usize,
         concat!("Alignment of ", stringify!(MonoMarshalSpec))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoMarshalSpec>())).native as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec),
-            "::",
-            stringify!(native)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoMarshalSpec>())).data as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoMarshalSpec),
-            "::",
-            stringify!(data)
-        )
-    );
+    fn test_field_native() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoMarshalSpec>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).native) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec),
+                "::",
+                stringify!(native)
+            )
+        );
+    }
+    test_field_native();
+    fn test_field_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoMarshalSpec>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).data) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoMarshalSpec),
+                "::",
+                stringify!(data)
+            )
+        );
+    }
+    test_field_data();
 }
 extern "C" {
     pub fn mono_metadata_init();
@@ -4947,32 +5822,40 @@ fn bindgen_test_layout_MonoExceptionClause__bindgen_ty_1() {
             stringify!(MonoExceptionClause__bindgen_ty_1)
         )
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoExceptionClause__bindgen_ty_1>())).filter_offset as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause__bindgen_ty_1),
-            "::",
-            stringify!(filter_offset)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoExceptionClause__bindgen_ty_1>())).catch_class as *const _
-                as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause__bindgen_ty_1),
-            "::",
-            stringify!(catch_class)
-        )
-    );
+    fn test_field_filter_offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).filter_offset) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause__bindgen_ty_1),
+                "::",
+                stringify!(filter_offset)
+            )
+        );
+    }
+    test_field_filter_offset();
+    fn test_field_catch_class() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause__bindgen_ty_1>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).catch_class) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause__bindgen_ty_1),
+                "::",
+                stringify!(catch_class)
+            )
+        );
+    }
+    test_field_catch_class();
 }
 #[test]
 fn bindgen_test_layout_MonoExceptionClause() {
@@ -4986,68 +5869,108 @@ fn bindgen_test_layout_MonoExceptionClause() {
         8usize,
         concat!("Alignment of ", stringify!(MonoExceptionClause))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoExceptionClause>())).flags as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause),
-            "::",
-            stringify!(flags)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoExceptionClause>())).try_offset as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause),
-            "::",
-            stringify!(try_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoExceptionClause>())).try_len as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause),
-            "::",
-            stringify!(try_len)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoExceptionClause>())).handler_offset as *const _ as usize
-        },
-        12usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause),
-            "::",
-            stringify!(handler_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoExceptionClause>())).handler_len as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause),
-            "::",
-            stringify!(handler_len)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoExceptionClause>())).data as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoExceptionClause),
-            "::",
-            stringify!(data)
-        )
-    );
+    fn test_field_flags() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).flags) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause),
+                "::",
+                stringify!(flags)
+            )
+        );
+    }
+    test_field_flags();
+    fn test_field_try_offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).try_offset) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause),
+                "::",
+                stringify!(try_offset)
+            )
+        );
+    }
+    test_field_try_offset();
+    fn test_field_try_len() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).try_len) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause),
+                "::",
+                stringify!(try_len)
+            )
+        );
+    }
+    test_field_try_len();
+    fn test_field_handler_offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).handler_offset) as usize - ptr as usize
+            },
+            12usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause),
+                "::",
+                stringify!(handler_offset)
+            )
+        );
+    }
+    test_field_handler_offset();
+    fn test_field_handler_len() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).handler_len) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause),
+                "::",
+                stringify!(handler_len)
+            )
+        );
+    }
+    test_field_handler_len();
+    fn test_field_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoExceptionClause>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).data) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoExceptionClause),
+                "::",
+                stringify!(data)
+            )
+        );
+    }
+    test_field_data();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -5177,38 +6100,57 @@ fn bindgen_test_layout__MonoCustomModContainer() {
         8usize,
         concat!("Alignment of ", stringify!(_MonoCustomModContainer))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoCustomModContainer>())).count as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoCustomModContainer),
-            "::",
-            stringify!(count)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoCustomModContainer>())).image as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoCustomModContainer),
-            "::",
-            stringify!(image)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<_MonoCustomModContainer>())).modifiers as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoCustomModContainer),
-            "::",
-            stringify!(modifiers)
-        )
-    );
+    fn test_field_count() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoCustomModContainer>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).count) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoCustomModContainer),
+                "::",
+                stringify!(count)
+            )
+        );
+    }
+    test_field_count();
+    fn test_field_image() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoCustomModContainer>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).image) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoCustomModContainer),
+                "::",
+                stringify!(image)
+            )
+        );
+    }
+    test_field_image();
+    fn test_field_modifiers() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoCustomModContainer>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).modifiers) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoCustomModContainer),
+                "::",
+                stringify!(modifiers)
+            )
+        );
+    }
+    test_field_modifiers();
 }
 pub type MonoCustomModContainer = _MonoCustomModContainer;
 #[repr(C)]
@@ -5233,66 +6175,108 @@ fn bindgen_test_layout__MonoArrayType() {
         8usize,
         concat!("Alignment of ", stringify!(_MonoArrayType))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoArrayType>())).eklass as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoArrayType),
-            "::",
-            stringify!(eklass)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoArrayType>())).rank as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoArrayType),
-            "::",
-            stringify!(rank)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoArrayType>())).numsizes as *const _ as usize },
-        9usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoArrayType),
-            "::",
-            stringify!(numsizes)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoArrayType>())).numlobounds as *const _ as usize },
-        10usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoArrayType),
-            "::",
-            stringify!(numlobounds)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoArrayType>())).sizes as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoArrayType),
-            "::",
-            stringify!(sizes)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoArrayType>())).lobounds as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoArrayType),
-            "::",
-            stringify!(lobounds)
-        )
-    );
+    fn test_field_eklass() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoArrayType>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).eklass) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoArrayType),
+                "::",
+                stringify!(eklass)
+            )
+        );
+    }
+    test_field_eklass();
+    fn test_field_rank() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoArrayType>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).rank) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoArrayType),
+                "::",
+                stringify!(rank)
+            )
+        );
+    }
+    test_field_rank();
+    fn test_field_numsizes() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoArrayType>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).numsizes) as usize - ptr as usize
+            },
+            9usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoArrayType),
+                "::",
+                stringify!(numsizes)
+            )
+        );
+    }
+    test_field_numsizes();
+    fn test_field_numlobounds() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoArrayType>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).numlobounds) as usize - ptr as usize
+            },
+            10usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoArrayType),
+                "::",
+                stringify!(numlobounds)
+            )
+        );
+    }
+    test_field_numlobounds();
+    fn test_field_sizes() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoArrayType>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).sizes) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoArrayType),
+                "::",
+                stringify!(sizes)
+            )
+        );
+    }
+    test_field_sizes();
+    fn test_field_lobounds() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoArrayType>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).lobounds) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoArrayType),
+                "::",
+                stringify!(lobounds)
+            )
+        );
+    }
+    test_field_lobounds();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -6210,26 +7194,40 @@ fn bindgen_test_layout__MonoObject() {
         8usize,
         concat!("Alignment of ", stringify!(_MonoObject))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoObject>())).vtable as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoObject),
-            "::",
-            stringify!(vtable)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<_MonoObject>())).synchronisation as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(_MonoObject),
-            "::",
-            stringify!(synchronisation)
-        )
-    );
+    fn test_field_vtable() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoObject>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).vtable) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoObject),
+                "::",
+                stringify!(vtable)
+            )
+        );
+    }
+    test_field_vtable();
+    fn test_field_synchronisation() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<_MonoObject>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).synchronisation) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(_MonoObject),
+                "::",
+                stringify!(synchronisation)
+            )
+        );
+    }
+    test_field_synchronisation();
 }
 pub type MonoInvokeFunc = ::std::option::Option<
     unsafe extern "C" fn(
@@ -6746,36 +7744,57 @@ fn bindgen_test_layout_MonoCustomAttrEntry() {
         8usize,
         concat!("Alignment of ", stringify!(MonoCustomAttrEntry))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoCustomAttrEntry>())).ctor as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoCustomAttrEntry),
-            "::",
-            stringify!(ctor)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoCustomAttrEntry>())).data_size as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoCustomAttrEntry),
-            "::",
-            stringify!(data_size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoCustomAttrEntry>())).data as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoCustomAttrEntry),
-            "::",
-            stringify!(data)
-        )
-    );
+    fn test_field_ctor() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoCustomAttrEntry>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).ctor) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoCustomAttrEntry),
+                "::",
+                stringify!(ctor)
+            )
+        );
+    }
+    test_field_ctor();
+    fn test_field_data_size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoCustomAttrEntry>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).data_size) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoCustomAttrEntry),
+                "::",
+                stringify!(data_size)
+            )
+        );
+    }
+    test_field_data_size();
+    fn test_field_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoCustomAttrEntry>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).data) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoCustomAttrEntry),
+                "::",
+                stringify!(data)
+            )
+        );
+    }
+    test_field_data();
 }
 #[repr(C)]
 #[derive(Debug)]
@@ -6797,46 +7816,74 @@ fn bindgen_test_layout_MonoCustomAttrInfo() {
         8usize,
         concat!("Alignment of ", stringify!(MonoCustomAttrInfo))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoCustomAttrInfo>())).num_attrs as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoCustomAttrInfo),
-            "::",
-            stringify!(num_attrs)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoCustomAttrInfo>())).cached as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoCustomAttrInfo),
-            "::",
-            stringify!(cached)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoCustomAttrInfo>())).image as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoCustomAttrInfo),
-            "::",
-            stringify!(image)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoCustomAttrInfo>())).attrs as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoCustomAttrInfo),
-            "::",
-            stringify!(attrs)
-        )
-    );
+    fn test_field_num_attrs() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoCustomAttrInfo>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).num_attrs) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoCustomAttrInfo),
+                "::",
+                stringify!(num_attrs)
+            )
+        );
+    }
+    test_field_num_attrs();
+    fn test_field_cached() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoCustomAttrInfo>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).cached) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoCustomAttrInfo),
+                "::",
+                stringify!(cached)
+            )
+        );
+    }
+    test_field_cached();
+    fn test_field_image() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoCustomAttrInfo>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).image) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoCustomAttrInfo),
+                "::",
+                stringify!(image)
+            )
+        );
+    }
+    test_field_image();
+    fn test_field_attrs() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoCustomAttrInfo>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).attrs) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoCustomAttrInfo),
+                "::",
+                stringify!(attrs)
+            )
+        );
+    }
+    test_field_attrs();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -6861,89 +7908,125 @@ fn bindgen_test_layout_MonoReflectionMethodAux() {
         8usize,
         concat!("Alignment of ", stringify!(MonoReflectionMethodAux))
     );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoReflectionMethodAux>())).param_names as *const _ as usize
-        },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoReflectionMethodAux),
-            "::",
-            stringify!(param_names)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoReflectionMethodAux>())).param_marshall as *const _ as usize
-        },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoReflectionMethodAux),
-            "::",
-            stringify!(param_marshall)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoReflectionMethodAux>())).param_cattr as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoReflectionMethodAux),
-            "::",
-            stringify!(param_cattr)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoReflectionMethodAux>())).param_defaults as *const _ as usize
-        },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoReflectionMethodAux),
-            "::",
-            stringify!(param_defaults)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoReflectionMethodAux>())).param_default_types as *const _
-                as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoReflectionMethodAux),
-            "::",
-            stringify!(param_default_types)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoReflectionMethodAux>())).dllentry as *const _ as usize
-        },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoReflectionMethodAux),
-            "::",
-            stringify!(dllentry)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoReflectionMethodAux>())).dll as *const _ as usize },
-        48usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoReflectionMethodAux),
-            "::",
-            stringify!(dll)
-        )
-    );
+    fn test_field_param_names() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoReflectionMethodAux>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).param_names) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoReflectionMethodAux),
+                "::",
+                stringify!(param_names)
+            )
+        );
+    }
+    test_field_param_names();
+    fn test_field_param_marshall() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoReflectionMethodAux>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).param_marshall) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoReflectionMethodAux),
+                "::",
+                stringify!(param_marshall)
+            )
+        );
+    }
+    test_field_param_marshall();
+    fn test_field_param_cattr() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoReflectionMethodAux>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).param_cattr) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoReflectionMethodAux),
+                "::",
+                stringify!(param_cattr)
+            )
+        );
+    }
+    test_field_param_cattr();
+    fn test_field_param_defaults() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoReflectionMethodAux>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).param_defaults) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoReflectionMethodAux),
+                "::",
+                stringify!(param_defaults)
+            )
+        );
+    }
+    test_field_param_defaults();
+    fn test_field_param_default_types() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoReflectionMethodAux>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).param_default_types) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoReflectionMethodAux),
+                "::",
+                stringify!(param_default_types)
+            )
+        );
+    }
+    test_field_param_default_types();
+    fn test_field_dllentry() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoReflectionMethodAux>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).dllentry) as usize - ptr as usize
+            },
+            40usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoReflectionMethodAux),
+                "::",
+                stringify!(dllentry)
+            )
+        );
+    }
+    test_field_dllentry();
+    fn test_field_dll() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoReflectionMethodAux>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).dll) as usize - ptr as usize
+            },
+            48usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoReflectionMethodAux),
+                "::",
+                stringify!(dll)
+            )
+        );
+    }
+    test_field_dll();
 }
 pub const MonoResolveTokenError_ResolveTokenError_OutOfRange: MonoResolveTokenError = 0;
 pub const MonoResolveTokenError_ResolveTokenError_BadTable: MonoResolveTokenError = 1;
@@ -7125,24 +8208,24 @@ extern "C" {
 extern "C" {
     pub fn mono_custom_attrs_free(ainfo: *mut MonoCustomAttrInfo);
 }
-pub const MONO_DECLSEC_FLAG_REQUEST: ::std::os::raw::c_uint = 1;
-pub const MONO_DECLSEC_FLAG_DEMAND: ::std::os::raw::c_uint = 2;
-pub const MONO_DECLSEC_FLAG_ASSERT: ::std::os::raw::c_uint = 4;
-pub const MONO_DECLSEC_FLAG_DENY: ::std::os::raw::c_uint = 8;
-pub const MONO_DECLSEC_FLAG_PERMITONLY: ::std::os::raw::c_uint = 16;
-pub const MONO_DECLSEC_FLAG_LINKDEMAND: ::std::os::raw::c_uint = 32;
-pub const MONO_DECLSEC_FLAG_INHERITANCEDEMAND: ::std::os::raw::c_uint = 64;
-pub const MONO_DECLSEC_FLAG_REQUEST_MINIMUM: ::std::os::raw::c_uint = 128;
-pub const MONO_DECLSEC_FLAG_REQUEST_OPTIONAL: ::std::os::raw::c_uint = 256;
-pub const MONO_DECLSEC_FLAG_REQUEST_REFUSE: ::std::os::raw::c_uint = 512;
-pub const MONO_DECLSEC_FLAG_PREJIT_GRANT: ::std::os::raw::c_uint = 1024;
-pub const MONO_DECLSEC_FLAG_PREJIT_DENY: ::std::os::raw::c_uint = 2048;
-pub const MONO_DECLSEC_FLAG_NONCAS_DEMAND: ::std::os::raw::c_uint = 4096;
-pub const MONO_DECLSEC_FLAG_NONCAS_LINKDEMAND: ::std::os::raw::c_uint = 8192;
-pub const MONO_DECLSEC_FLAG_NONCAS_INHERITANCEDEMAND: ::std::os::raw::c_uint = 16384;
-pub const MONO_DECLSEC_FLAG_LINKDEMAND_CHOICE: ::std::os::raw::c_uint = 32768;
-pub const MONO_DECLSEC_FLAG_INHERITANCEDEMAND_CHOICE: ::std::os::raw::c_uint = 65536;
-pub const MONO_DECLSEC_FLAG_DEMAND_CHOICE: ::std::os::raw::c_uint = 131072;
+pub const MONO_DECLSEC_FLAG_REQUEST: _bindgen_ty_65 = 1;
+pub const MONO_DECLSEC_FLAG_DEMAND: _bindgen_ty_65 = 2;
+pub const MONO_DECLSEC_FLAG_ASSERT: _bindgen_ty_65 = 4;
+pub const MONO_DECLSEC_FLAG_DENY: _bindgen_ty_65 = 8;
+pub const MONO_DECLSEC_FLAG_PERMITONLY: _bindgen_ty_65 = 16;
+pub const MONO_DECLSEC_FLAG_LINKDEMAND: _bindgen_ty_65 = 32;
+pub const MONO_DECLSEC_FLAG_INHERITANCEDEMAND: _bindgen_ty_65 = 64;
+pub const MONO_DECLSEC_FLAG_REQUEST_MINIMUM: _bindgen_ty_65 = 128;
+pub const MONO_DECLSEC_FLAG_REQUEST_OPTIONAL: _bindgen_ty_65 = 256;
+pub const MONO_DECLSEC_FLAG_REQUEST_REFUSE: _bindgen_ty_65 = 512;
+pub const MONO_DECLSEC_FLAG_PREJIT_GRANT: _bindgen_ty_65 = 1024;
+pub const MONO_DECLSEC_FLAG_PREJIT_DENY: _bindgen_ty_65 = 2048;
+pub const MONO_DECLSEC_FLAG_NONCAS_DEMAND: _bindgen_ty_65 = 4096;
+pub const MONO_DECLSEC_FLAG_NONCAS_LINKDEMAND: _bindgen_ty_65 = 8192;
+pub const MONO_DECLSEC_FLAG_NONCAS_INHERITANCEDEMAND: _bindgen_ty_65 = 16384;
+pub const MONO_DECLSEC_FLAG_LINKDEMAND_CHOICE: _bindgen_ty_65 = 32768;
+pub const MONO_DECLSEC_FLAG_INHERITANCEDEMAND_CHOICE: _bindgen_ty_65 = 65536;
+pub const MONO_DECLSEC_FLAG_DEMAND_CHOICE: _bindgen_ty_65 = 131072;
 pub type _bindgen_ty_65 = ::std::os::raw::c_uint;
 extern "C" {
     pub fn mono_declsec_flags_from_method(method: *mut MonoMethod) -> u32;
@@ -7172,36 +8255,57 @@ fn bindgen_test_layout_MonoDeclSecurityEntry() {
         8usize,
         concat!("Alignment of ", stringify!(MonoDeclSecurityEntry))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDeclSecurityEntry>())).blob as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDeclSecurityEntry),
-            "::",
-            stringify!(blob)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDeclSecurityEntry>())).size as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDeclSecurityEntry),
-            "::",
-            stringify!(size)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDeclSecurityEntry>())).index as *const _ as usize },
-        12usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDeclSecurityEntry),
-            "::",
-            stringify!(index)
-        )
-    );
+    fn test_field_blob() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDeclSecurityEntry>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).blob) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDeclSecurityEntry),
+                "::",
+                stringify!(blob)
+            )
+        );
+    }
+    test_field_blob();
+    fn test_field_size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDeclSecurityEntry>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).size) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDeclSecurityEntry),
+                "::",
+                stringify!(size)
+            )
+        );
+    }
+    test_field_size();
+    fn test_field_index() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDeclSecurityEntry>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).index) as usize - ptr as usize
+            },
+            12usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDeclSecurityEntry),
+                "::",
+                stringify!(index)
+            )
+        );
+    }
+    test_field_index();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -7222,40 +8326,57 @@ fn bindgen_test_layout_MonoDeclSecurityActions() {
         8usize,
         concat!("Alignment of ", stringify!(MonoDeclSecurityActions))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDeclSecurityActions>())).demand as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDeclSecurityActions),
-            "::",
-            stringify!(demand)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoDeclSecurityActions>())).noncasdemand as *const _ as usize
-        },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDeclSecurityActions),
-            "::",
-            stringify!(noncasdemand)
-        )
-    );
-    assert_eq!(
-        unsafe {
-            &(*(::std::ptr::null::<MonoDeclSecurityActions>())).demandchoice as *const _ as usize
-        },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDeclSecurityActions),
-            "::",
-            stringify!(demandchoice)
-        )
-    );
+    fn test_field_demand() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDeclSecurityActions>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).demand) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDeclSecurityActions),
+                "::",
+                stringify!(demand)
+            )
+        );
+    }
+    test_field_demand();
+    fn test_field_noncasdemand() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDeclSecurityActions>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).noncasdemand) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDeclSecurityActions),
+                "::",
+                stringify!(noncasdemand)
+            )
+        );
+    }
+    test_field_noncasdemand();
+    fn test_field_demandchoice() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDeclSecurityActions>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).demandchoice) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDeclSecurityActions),
+                "::",
+                stringify!(demandchoice)
+            )
+        );
+    }
+    test_field_demandchoice();
 }
 extern "C" {
     pub fn mono_declsec_get_demands(
@@ -7872,36 +8993,57 @@ fn bindgen_test_layout_MonoBundledAssembly() {
         8usize,
         concat!("Alignment of ", stringify!(MonoBundledAssembly))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoBundledAssembly>())).name as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoBundledAssembly),
-            "::",
-            stringify!(name)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoBundledAssembly>())).data as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoBundledAssembly),
-            "::",
-            stringify!(data)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoBundledAssembly>())).size as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoBundledAssembly),
-            "::",
-            stringify!(size)
-        )
-    );
+    fn test_field_name() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoBundledAssembly>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).name) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoBundledAssembly),
+                "::",
+                stringify!(name)
+            )
+        );
+    }
+    test_field_name();
+    fn test_field_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoBundledAssembly>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).data) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoBundledAssembly),
+                "::",
+                stringify!(data)
+            )
+        );
+    }
+    test_field_data();
+    fn test_field_size() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoBundledAssembly>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).size) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoBundledAssembly),
+                "::",
+                stringify!(size)
+            )
+        );
+    }
+    test_field_size();
 }
 extern "C" {
     pub fn mono_register_bundled_assemblies(assemblies: *mut *const MonoBundledAssembly);
@@ -7970,66 +9112,108 @@ fn bindgen_test_layout_MonoDisHelper() {
         8usize,
         concat!("Alignment of ", stringify!(MonoDisHelper))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDisHelper>())).newline as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDisHelper),
-            "::",
-            stringify!(newline)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDisHelper>())).label_format as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDisHelper),
-            "::",
-            stringify!(label_format)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDisHelper>())).label_target as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDisHelper),
-            "::",
-            stringify!(label_target)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDisHelper>())).indenter as *const _ as usize },
-        24usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDisHelper),
-            "::",
-            stringify!(indenter)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDisHelper>())).tokener as *const _ as usize },
-        32usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDisHelper),
-            "::",
-            stringify!(tokener)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<MonoDisHelper>())).user_data as *const _ as usize },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(MonoDisHelper),
-            "::",
-            stringify!(user_data)
-        )
-    );
+    fn test_field_newline() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDisHelper>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).newline) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDisHelper),
+                "::",
+                stringify!(newline)
+            )
+        );
+    }
+    test_field_newline();
+    fn test_field_label_format() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDisHelper>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).label_format) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDisHelper),
+                "::",
+                stringify!(label_format)
+            )
+        );
+    }
+    test_field_label_format();
+    fn test_field_label_target() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDisHelper>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).label_target) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDisHelper),
+                "::",
+                stringify!(label_target)
+            )
+        );
+    }
+    test_field_label_target();
+    fn test_field_indenter() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDisHelper>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).indenter) as usize - ptr as usize
+            },
+            24usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDisHelper),
+                "::",
+                stringify!(indenter)
+            )
+        );
+    }
+    test_field_indenter();
+    fn test_field_tokener() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDisHelper>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).tokener) as usize - ptr as usize
+            },
+            32usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDisHelper),
+                "::",
+                stringify!(tokener)
+            )
+        );
+    }
+    test_field_tokener();
+    fn test_field_user_data() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<MonoDisHelper>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).user_data) as usize - ptr as usize
+            },
+            40usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(MonoDisHelper),
+                "::",
+                stringify!(user_data)
+            )
+        );
+    }
+    test_field_user_data();
 }
 extern "C" {
     pub fn mono_disasm_code_one(
@@ -8420,44 +9604,72 @@ fn bindgen_test_layout___va_list_tag() {
         8usize,
         concat!("Alignment of ", stringify!(__va_list_tag))
     );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__va_list_tag>())).gp_offset as *const _ as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__va_list_tag),
-            "::",
-            stringify!(gp_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__va_list_tag>())).fp_offset as *const _ as usize },
-        4usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__va_list_tag),
-            "::",
-            stringify!(fp_offset)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__va_list_tag>())).overflow_arg_area as *const _ as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__va_list_tag),
-            "::",
-            stringify!(overflow_arg_area)
-        )
-    );
-    assert_eq!(
-        unsafe { &(*(::std::ptr::null::<__va_list_tag>())).reg_save_area as *const _ as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(__va_list_tag),
-            "::",
-            stringify!(reg_save_area)
-        )
-    );
+    fn test_field_gp_offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).gp_offset) as usize - ptr as usize
+            },
+            0usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__va_list_tag),
+                "::",
+                stringify!(gp_offset)
+            )
+        );
+    }
+    test_field_gp_offset();
+    fn test_field_fp_offset() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).fp_offset) as usize - ptr as usize
+            },
+            4usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__va_list_tag),
+                "::",
+                stringify!(fp_offset)
+            )
+        );
+    }
+    test_field_fp_offset();
+    fn test_field_overflow_arg_area() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).overflow_arg_area) as usize - ptr as usize
+            },
+            8usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__va_list_tag),
+                "::",
+                stringify!(overflow_arg_area)
+            )
+        );
+    }
+    test_field_overflow_arg_area();
+    fn test_field_reg_save_area() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).reg_save_area) as usize - ptr as usize
+            },
+            16usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(__va_list_tag),
+                "::",
+                stringify!(reg_save_area)
+            )
+        );
+    }
+    test_field_reg_save_area();
 }
