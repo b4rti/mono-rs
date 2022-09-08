@@ -1,3 +1,5 @@
+![crates.io](https://img.shields.io/crates/v/mono-rs.svg)
+
 # mono-rs
 
 ## Lightweight wrapper around mono. !!WIP!! 
