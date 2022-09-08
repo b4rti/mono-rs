@@ -60,6 +60,7 @@ mod tests {
         let method_name = CString::new("TestClass:getTestField()")?;
         let method_decs = unsafe { mono_method_desc_new(method_name.as_ptr(), 0) };
         let method = unsafe { mono_method_desc_search_in_class(method_decs, class.mono_ptr) };
+        let _method = object.get_method_by_name("TestClass:getTestField()")?;
 
         println!("Calling Method");
         let result_object = unsafe {
