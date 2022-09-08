@@ -1,4 +1,10 @@
-#![allow(non_snake_case, non_camel_case_types, non_upper_case_globals)]
+#![allow(
+    non_snake_case,
+    non_camel_case_types,
+    non_upper_case_globals,
+    deref_nullptr,
+    improper_ctypes
+)]
 
 #[repr(C)]
 #[derive(Copy, Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
