@@ -1,3 +1,5 @@
+![crates.io](https://img.shields.io/crates/v/mono-rs.svg)
+
 # mono-rs
 
 ## Lightweight wrapper around mono. !!WIP!! 
@@ -9,15 +11,15 @@ using System;
 
 namespace TestNS
 {
-	class TestClass
-	{
-		String TestField = "Test";
+    class TestClass
+    {
+        String TestField = "Test";
 
-		String getTestField()
-		{
-			return "Call result: " + this.TestField;
-		}
-	}
+        String getTestField()
+        {
+            return "Call result: " + this.TestField;
+        }
+    }
 }
 ```
 

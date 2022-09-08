@@ -37,7 +37,7 @@ impl AsRawVoid for &str {
     fn as_raw_void(self) -> *mut c_void {
         let cstr = Box::new(CString::new(self).unwrap());
         let mut cstr_ptr = cstr.as_ptr();
-        Box::into_raw(cstr);
+        Box::leak(cstr);
         &mut cstr_ptr as *mut _ as *mut c_void
     }
 }
@@ -46,7 +46,7 @@ impl AsRawVoid for String {
     fn as_raw_void(self) -> *mut c_void {
         let cstr = Box::new(CString::new(self.as_str()).unwrap());
         let mut cstr_ptr = cstr.as_ptr();
-        Box::into_raw(cstr);
+        Box::leak(cstr);
         &mut cstr_ptr as *mut _ as *mut c_void
     }
 }
