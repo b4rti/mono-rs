@@ -24,7 +24,7 @@ namespace TestNS
 }
 ```
 
-```shell
+```sh
 mcs -target:library -out:Test.dll Test.cs
 ```
 
@@ -127,5 +127,9 @@ fn main() -> MonoResult<()> {
     
     Ok(())
 }
-
 ```
+
+```sh
+bindgen -o src/bindings.rs src/bindings.h -- -I/usr/include/mono-2.0
+```
+
