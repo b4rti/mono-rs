@@ -15,8 +15,6 @@ impl AsRawVoidMarker for u32 {}
 impl AsRawVoidMarker for i32 {}
 impl AsRawVoidMarker for u64 {}
 impl AsRawVoidMarker for i64 {}
-impl AsRawVoidMarker for u128 {}
-impl AsRawVoidMarker for i128 {}
 impl AsRawVoidMarker for f32 {}
 impl AsRawVoidMarker for f64 {}
 

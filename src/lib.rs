@@ -18,7 +18,14 @@ pub type MonoResult<T> = Result<T, Box<dyn Error>>;
 
 #[cfg(test)]
 mod tests {
-    use crate::{bindings::*, domain::Domain, MonoResult};
+    use crate::{
+        bindings::{
+            mono_method_desc_new, mono_method_desc_search_in_class, mono_runtime_invoke,
+            mono_string_to_utf8, MonoString,
+        },
+        domain::Domain,
+        MonoResult,
+    };
     use std::{
         ffi::{c_void, CString},
         ptr::null_mut,
