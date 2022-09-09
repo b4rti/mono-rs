@@ -65,40 +65,6 @@ fn main() -> MonoResult<()> {
     // !!WIP!! Raw bindings from here on! //
     ////////////////////////////////////////
     
-    
-    let value_string_object = value_object.mono_ptr as *mut MonoString;
-    let value_string = unsafe { mono_string_to_utf8(value_string_object) };
-    let value_string = unsafe { CString::from_raw(value_string) };
-    
-    println!("Value: {}", &*value_string.to_string_lossy());
-    
-    println!("Opening Assembly");
-    let assembly = domain.open_assembly("Test.dll")?;
-
-    println!("Getting Image");
-    let image = assembly.get_image()?;
-
-    println!("Getting Class");
-    let class = image.get_class_by_name("TestNS", "TestClass")?;
-
-    println!("Creating Object");
-    let object = class.create_object()?;
-
-    println!("Calling Constructor");
-    object.construct(None)?;
-
-    println!("Getting Field");
-    let field = object.get_field_by_name("TestField")?;
-
-    println!("Getting Field Value");
-    let value_object = field.get_value_object()?;
-
-
-    ////////////////////////////////////////
-    // !!WIP!! Raw bindings from here on! //
-    ////////////////////////////////////////
-
-
     let value_string_object = value_object.mono_ptr as *mut MonoString;
     let value_string = unsafe { mono_string_to_utf8(value_string_object) };
     let value_string = unsafe { CString::from_raw(value_string) };
