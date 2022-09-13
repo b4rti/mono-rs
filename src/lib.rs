@@ -18,7 +18,7 @@ pub type MonoResult<T> = Result<T, Box<dyn Error>>;
 
 #[cfg(test)]
 mod tests {
-    use crate::{domain::Domain, method::Arguments, value::Value, MonoResult};
+    use crate::{domain::Domain, value::Value, MonoResult};
 
     #[test]
     fn test() -> MonoResult<()> {
@@ -55,7 +55,7 @@ mod tests {
         let method = object.get_method_by_name("TestClass:getTestField()")?;
 
         println!("Calling Method");
-        let result_object = method.invoke(Arguments::new())?;
+        let result_object = method.invoke(None)?;
 
         if let Value::Str(result_string) = result_object.try_into()? {
             println!("{}", result_string);

@@ -3,12 +3,15 @@ use std::{
     ptr::null_mut,
 };
 
+use crate::value::Value;
+
 pub trait AsRawVoidMarker {}
 impl AsRawVoidMarker for bool {}
 impl AsRawVoidMarker for usize {}
 impl AsRawVoidMarker for isize {}
 impl AsRawVoidMarker for u8 {}
 impl AsRawVoidMarker for i8 {}
+impl AsRawVoidMarker for char {}
 impl AsRawVoidMarker for u16 {}
 impl AsRawVoidMarker for i16 {}
 impl AsRawVoidMarker for u32 {}
@@ -46,6 +49,16 @@ impl AsRawVoid for String {
         let mut cstr_ptr = cstr.as_ptr();
         Box::leak(cstr);
         &mut cstr_ptr as *mut _ as *mut c_void
+    }
+}
+
+impl AsRawVoid for &[Value] {
+    fn as_raw_void(self) -> *mut c_void {
+        self.iter()
+            .cloned()
+            .map(|item| item.as_raw_void())
+            .collect::<Vec<*mut c_void>>()
+            .as_ptr() as *mut c_void
     }
 }
 

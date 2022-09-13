@@ -7,14 +7,10 @@ use crate::{
     domain::Domain,
     image::Image,
     object::Object,
+    value::Value,
     void::AsRawVoid,
     MonoResult,
 };
-
-#[derive(Clone, Debug)]
-pub struct Arguments {
-    pub args: Vec<*mut c_void>,
-}
 
 #[derive(Clone, Debug)]
 pub struct ClassMethod {
@@ -36,7 +32,7 @@ pub struct ObjectMethod {
 }
 
 impl ObjectMethod {
-    pub fn invoke(&self, args: Arguments) -> MonoResult<Object> {
+    pub fn invoke(&self, args: Option<&[Value]>) -> MonoResult<Object> {
         let mono_result = unsafe {
             mono_runtime_invoke(
                 self.mono_ptr,
@@ -70,19 +66,6 @@ pub struct StaticMethod {
     pub image: Arc<Image>,
 }
 
-impl Arguments {
-    pub fn new() -> Arguments {
-        Arguments { args: Vec::new() }
-    }
-
-    pub fn add<T>(&mut self, arg: T)
-    where
-        T: AsRawVoid,
-    {
-        self.args.push(arg.as_raw_void());
-    }
-}
-
 impl AsRawVoid for ClassMethod {
     fn as_raw_void(self) -> *mut c_void {
         self.mono_ptr as *mut c_void
@@ -98,11 +81,5 @@ impl AsRawVoid for ObjectMethod {
 impl AsRawVoid for StaticMethod {
     fn as_raw_void(self) -> *mut c_void {
         self.mono_ptr as *mut c_void
-    }
-}
-
-impl AsRawVoid for Arguments {
-    fn as_raw_void(mut self) -> *mut c_void {
-        self.args.as_mut_ptr() as *mut c_void
     }
 }

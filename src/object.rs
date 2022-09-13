@@ -14,7 +14,8 @@ use crate::{
     domain::Domain,
     field::ObjectField,
     image::Image,
-    method::{Arguments, ObjectMethod},
+    method::ObjectMethod,
+    value::Value,
     void::AsRawVoid,
     MonoResult,
 };
@@ -29,7 +30,7 @@ pub struct Object {
 }
 
 impl Object {
-    pub fn construct(&self, args: Option<Arguments>) -> MonoResult<()> {
+    pub fn construct(&self, args: Option<&[Value]>) -> MonoResult<()> {
         unsafe {
             mono_runtime_invoke(
                 self.get_method_by_name(".ctor")?.mono_ptr,
@@ -53,7 +54,8 @@ impl Object {
         let class_name = self.get_class_name();
         let method_name = CString::new(format!("{}:{}()", class_name, name.as_ref()))?;
         let method_desc = unsafe { mono_method_desc_new(method_name.as_ptr(), 0) };
-        let mono_ptr = unsafe { mono_method_desc_search_in_class(method_desc, self.class.mono_ptr) };
+        let mono_ptr =
+            unsafe { mono_method_desc_search_in_class(method_desc, self.class.mono_ptr) };
 
         if mono_ptr.is_null() {
             return Err("MonoMethod Null Error!".into());
