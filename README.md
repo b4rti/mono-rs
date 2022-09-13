@@ -1,5 +1,5 @@
 [![crates.io](https://img.shields.io/crates/v/mono-rs.svg)](https://crates.io/crates/mono-rs)
-[![github/actions](https://github.com/b4rti/mono-rs/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/b4rti/mono-rs/actions/workflows/rust.yml)
+[![github/actions](https://github.com/b4rti/mono-rs/actions/workflows/earthly.yml/badge.svg?branch=master)](https://github.com/b4rti/mono-rs/actions/workflows/earthly.yml)
 
 # mono-rs
 
@@ -74,6 +74,7 @@ fn main() -> MonoResult<()> {
     }
 
     Ok(())
+}
 
 ```
 
