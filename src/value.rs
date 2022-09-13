@@ -1,6 +1,9 @@
-use std::{collections::HashMap, convert::TryFrom, error::Error};
+use std::{collections::HashMap, convert::TryFrom, error::Error, ffi::CString};
 
-use crate::object::Object;
+use crate::{
+    bindings::{mono_string_to_utf8, MonoString},
+    object::Object,
+};
 
 #[derive(Clone, Debug)]
 pub enum Value {
@@ -31,7 +34,11 @@ impl TryFrom<Object> for Value {
     type Error = Box<dyn Error>;
 
     fn try_from(object: Object) -> Result<Self, Self::Error> {
-        let _object = object;
-        Ok(Value::Bool(false))
+        // TODO: Implement TryFrom for all types
+        let value_string_object = object.mono_ptr as *mut MonoString;
+        let value_string = unsafe { mono_string_to_utf8(value_string_object) };
+        let value_string = unsafe { CString::from_raw(value_string) };
+
+        Ok(Value::Str(String::from(value_string.to_str()?)))
     }
 }

@@ -18,13 +18,7 @@ pub type MonoResult<T> = Result<T, Box<dyn Error>>;
 
 #[cfg(test)]
 mod tests {
-    use crate::{
-        bindings::{mono_string_to_utf8, MonoString},
-        domain::Domain,
-        method::Arguments,
-        MonoResult,
-    };
-    use std::ffi::CString;
+    use crate::{domain::Domain, method::Arguments, value::Value, MonoResult};
 
     #[test]
     fn test() -> MonoResult<()> {
@@ -51,25 +45,23 @@ mod tests {
 
         println!("Getting Field Value");
         let value_object = field.get_value_object()?;
-
-        let value_string_object = value_object.mono_ptr as *mut MonoString;
-        let value_string = unsafe { mono_string_to_utf8(value_string_object) };
-        let value_string = unsafe { CString::from_raw(value_string) };
-
-        println!("Value: {}", &*value_string.to_string_lossy());
+        if let Value::Str(value_string) = value_object.try_into()? {
+            println!("FieldValue: {}", value_string);
+        } else {
+            println!("FieldValue is not a string");
+        }
 
         println!("Getting MethodDesc");
         let method = object.get_method_by_name("TestClass:getTestField()")?;
 
         println!("Calling Method");
         let result_object = method.invoke(Arguments::new())?;
-        let result_object = result_object.mono_ptr as *mut MonoString;
 
-        let result_string_object = result_object as *mut MonoString;
-        let result_string = unsafe { mono_string_to_utf8(result_string_object) };
-        let result_string = unsafe { CString::from_raw(result_string) };
-
-        println!("Result: {}", &*result_string.to_string_lossy());
+        if let Value::Str(result_string) = result_object.try_into()? {
+            println!("{}", result_string);
+        } else {
+            println!("Result is not a string");
+        }
 
         Ok(())
     }
