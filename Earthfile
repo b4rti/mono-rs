@@ -1,6 +1,6 @@
 VERSION 0.6
 FROM rust
-RUN apt update -y && apt install mono-devel -y
+RUN apt update -y && apt upgrade -y && apt install -y mono-devel
 WORKDIR /rust
 
 
@@ -18,6 +18,6 @@ check:
 
 test:
 	COPY . .
-	RUN cargo test
+	RUN cargo test -- --nocapture
 
 

@@ -1,9 +1,20 @@
 use std::{ffi::c_void, sync::Arc};
 
 use crate::{
-    assembly::Assembly, bindings::MonoMethod, class::Class, domain::Domain, image::Image,
-    object::Object, void::AsRawVoid,
+    assembly::Assembly,
+    bindings::{mono_runtime_invoke, MonoMethod, MonoObject},
+    class::Class,
+    domain::Domain,
+    image::Image,
+    object::Object,
+    void::AsRawVoid,
+    MonoResult,
 };
+
+#[derive(Clone, Debug)]
+pub struct Arguments {
+    pub args: Vec<*mut c_void>,
+}
 
 #[derive(Clone, Debug)]
 pub struct ClassMethod {
@@ -24,6 +35,32 @@ pub struct ObjectMethod {
     pub object: Arc<Object>,
 }
 
+impl ObjectMethod {
+    pub fn invoke(&self, args: Arguments) -> MonoResult<Object> {
+        let mono_result = unsafe {
+            mono_runtime_invoke(
+                self.mono_ptr,
+                self.object.mono_ptr as *mut c_void,
+                args.as_raw_void() as *mut *mut c_void,
+                std::ptr::null_mut(),
+            )
+        };
+        if mono_result.is_null() {
+            return Err("Method returned null".into());
+        }
+
+        let result = Object {
+            mono_ptr: mono_result as *mut MonoObject,
+            assembly: self.assembly.clone(),
+            class: self.class.clone(),
+            domain: self.domain.clone(),
+            image: self.image.clone(),
+        };
+
+        Ok(result)
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct StaticMethod {
     pub mono_ptr: *mut MonoMethod,
@@ -31,11 +68,6 @@ pub struct StaticMethod {
     pub class: Arc<Class>,
     pub domain: Arc<Domain>,
     pub image: Arc<Image>,
-}
-
-#[derive(Clone, Debug)]
-pub struct Arguments {
-    pub args: Vec<*mut c_void>,
 }
 
 impl Arguments {
