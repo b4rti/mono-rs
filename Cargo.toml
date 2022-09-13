@@ -4,7 +4,7 @@ description = "Lightweight wrapper around mono."
 authors = ["Bartosz 'b4rti' Gorol"]
 repository = "https://github.com/b4rti/mono-rs"
 license = "MIT"
-version = "0.1.9"
+version = "0.1.10"
 edition = "2021"
 links = "mono-2.0"
 
