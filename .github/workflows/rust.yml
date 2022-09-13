@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install earthly
-      run: sudo apt update -y && apt upgrade -y && apt install -y eartly
+      run: sudo apt update -y && sudo apt upgrade -y && sudo apt install -y eartly
     - name: Run build
       run: earthly --ci +all
 
