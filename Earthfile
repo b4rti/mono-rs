@@ -1,6 +1,6 @@
 VERSION 0.6
 FROM rust
-RUN apt update -y && apt upgrade -y && apt install -y mono-devel
+RUN apt update -y && apt install -y mono-devel
 WORKDIR /rust
 
 
