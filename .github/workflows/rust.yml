@@ -2,9 +2,13 @@ name: Rust
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - "master"
+      - "feature/**"
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - "master"
+      - "feature/**"
 
 env:
   CARGO_TERM_COLOR: always
@@ -14,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Download latest earthly
-      run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.23/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
+    - name: Install earthly
+      run: sudo apt update -y && apt upgrade -y && apt install -y eartly
     - name: Run build
       run: earthly --ci +all
 
